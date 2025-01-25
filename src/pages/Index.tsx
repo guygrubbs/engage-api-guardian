@@ -21,30 +21,30 @@ const Index = () => {
 
       <div className="container mx-auto px-4 py-12 md:py-20">
         {/* Hero Section with Image */}
-        <div className="text-center mb-20 animate-fade-in relative">
+        <div className="text-center mb-20 animate-fade-in relative rounded-3xl overflow-hidden">
           <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-600/10 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-blue-600/90 mix-blend-multiply" />
             <img
-              src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
-              alt="Hero background"
-              className="w-full h-full object-cover opacity-20"
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978"
+              alt="Diverse team collaborating on startup pitch"
+              className="w-full h-full object-cover"
             />
           </div>
-          <div className="max-w-4xl mx-auto py-20">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 leading-tight">
+          <div className="max-w-4xl mx-auto py-20 px-4">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
               Connect Startups with VCs
             </h1>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
               Submit pitch decks, generate AI-powered insights, and connect with the right investors.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="group bg-primary hover:bg-primary/90 transition-all duration-300" asChild>
+              <Button size="lg" className="group bg-white text-primary hover:bg-white/90 transition-all duration-300" asChild>
                 <Link to="/auth" className="inline-flex items-center">
                   Get Started 
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="group transition-all duration-300" asChild>
+              <Button size="lg" variant="outline" className="group transition-all duration-300 bg-transparent border-white text-white hover:bg-white/20" asChild>
                 <Link to="/pricing" className="inline-flex items-center">
                   View Pricing
                   <ArrowUpRight className="ml-2 h-4 w-4 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
