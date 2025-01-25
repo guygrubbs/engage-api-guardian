@@ -66,12 +66,26 @@ export const PitchSubmissionForm = () => {
         if (filesError) throw filesError;
       }
 
-      toast({
-        title: "Success!",
-        description: "Your pitch has been submitted successfully.",
+      // Generate reports after pitch submission
+      const { error: generateError } = await supabase.functions.invoke('generate-report', {
+        body: { pitchId: pitch.id }
       });
+
+      if (generateError) {
+        console.error('Error generating reports:', generateError);
+        toast({
+          title: "Warning",
+          description: "Pitch submitted but there was an error generating reports. Our team will review and generate them manually.",
+          variant: "default",
+        });
+      } else {
+        toast({
+          title: "Success!",
+          description: "Your pitch has been submitted and reports have been generated.",
+        });
+      }
       
-      navigate('/');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Submission error:', error);
       toast({
