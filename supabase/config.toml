@@ -26,5 +26,5 @@ enabled = true
 enabled = true
 
 [[functions]]
-name = "generate-report"
+[functions.generate-report]
 verify_jwt = true
