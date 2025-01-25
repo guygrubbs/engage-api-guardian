@@ -202,7 +202,7 @@ export type Database = {
         | "approved"
         | "rejected"
       report_tier: "teaser" | "tier2" | "tier3"
-      user_role: "startup" | "vc"
+      user_role: "startup" | "vc" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
