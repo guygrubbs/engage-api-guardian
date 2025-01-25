@@ -25,6 +25,6 @@ enabled = true
 [realtime]
 enabled = true
 
-[[functions]]
+[functions]
 [functions.generate-report]
 verify_jwt = true

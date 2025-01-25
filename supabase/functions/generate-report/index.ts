@@ -1,23 +1,52 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
-import { RateLimiter } from "https://deno.land/x/rate_limiter@v0.1.0/mod.ts";
 
-const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY') ?? 'sk-placeholder-openai-key';
-const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY') ?? 'pplx-placeholder-key';
-const SERPAPI_API_KEY = Deno.env.get('SERPAPI_API_KEY') ?? 'serp-placeholder-key';
-const LINKEDIN_API_KEY = Deno.env.get('LINKEDIN_API_KEY') ?? 'linkedin-placeholder-key';
+// Simple in-memory rate limiter implementation
+class RateLimiter {
+  private requests: Map<string, number[]>;
+  private windowMs: number;
+  private maxRequests: number;
+
+  constructor(options: { windowMs: number; maxRequests: number }) {
+    this.requests = new Map();
+    this.windowMs = options.windowMs;
+    this.maxRequests = options.maxRequests;
+  }
+
+  async isAllowed(key: string): Promise<boolean> {
+    const now = Date.now();
+    const windowStart = now - this.windowMs;
+
+    // Get existing requests for this key
+    let requests = this.requests.get(key) || [];
+    
+    // Filter out old requests
+    requests = requests.filter(timestamp => timestamp > windowStart);
+
+    // Check if we're over the limit
+    if (requests.length >= this.maxRequests) {
+      return false;
+    }
+
+    // Add current request
+    requests.push(now);
+    this.requests.set(key, requests);
+
+    return true;
+  }
+}
+
+// Rate limiter: 10 requests per minute per IP
+const rateLimiter = new RateLimiter({
+  maxRequests: 10,
+  windowMs: 60000, // 1 minute
+});
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
-
-// Rate limiter: 10 requests per minute per IP
-const rateLimiter = new RateLimiter({
-  requests: 10,
-  window: 60000, // 1 minute
-});
 
 async function validateInput(data: any) {
   const requiredFields = ['pitchId'];
