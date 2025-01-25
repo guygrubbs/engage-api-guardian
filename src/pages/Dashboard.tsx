@@ -36,6 +36,12 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
       <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold mb-2">Welcome Back!</h1>
+          <p className="text-muted-foreground">
+            Manage your pitches and review insights from your dashboard.
+          </p>
+        </div>
         <DashboardView />
       </div>
     </div>

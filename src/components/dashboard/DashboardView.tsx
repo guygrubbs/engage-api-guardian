@@ -33,19 +33,19 @@ export const DashboardView = () => {
 
   return (
     <div className="space-y-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>
+      <Card className="overflow-hidden border-primary/10 hover:shadow-lg transition-all duration-300">
+        <CardHeader className="bg-primary/5 border-b border-primary/10">
+          <CardTitle className="text-2xl">
             {userRole === 'vc' ? 'All Company Reports' : 'Your Reports'}
           </CardTitle>
-          <CardDescription>
+          <CardDescription className="text-muted-foreground">
             {userRole === 'vc' 
               ? 'View and analyze reports from all companies'
               : 'View your company reports and upgrade for more insights'
             }
           </CardDescription>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-6">
           <ReportsList />
         </CardContent>
       </Card>
