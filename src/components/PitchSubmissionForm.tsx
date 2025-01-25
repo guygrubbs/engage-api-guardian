@@ -30,6 +30,18 @@ export const PitchSubmissionForm = () => {
   const onSubmit = async (data: PitchSubmissionFormData) => {
     try {
       setIsSubmitting(true);
+
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        toast({
+          title: "Error",
+          description: "You must be logged in to submit a pitch",
+          variant: "destructive",
+        });
+        return;
+      }
       
       // Insert pitch data
       const { data: pitch, error: pitchError } = await supabase
@@ -42,7 +54,8 @@ export const PitchSubmissionForm = () => {
           stage: data.stage,
           team_size: parseInt(data.teamSize),
           website_url: data.websiteUrl,
-          status: 'draft'
+          status: 'draft',
+          user_id: user.id // Add the user_id here
         })
         .select()
         .single();
