@@ -1,69 +1,168 @@
-# Welcome to your Lovable project
+# VCConnect - Startup and VC Connection Platform
 
-## Project info
+## Project Overview
 
-**URL**: https://lovable.dev/projects/645cfb8f-4221-4a78-96b3-d375329eed9a
+VCConnect is a full-stack web application that connects startups with venture capitalists through AI-powered pitch deck analysis. The platform enables startups to submit their pitch decks and receive automated insights while helping VCs streamline their deal flow.
 
-## How can I edit this code?
+### Key Features
 
-There are several ways of editing your application.
+- **AI-Powered Analysis**: Automated pitch deck analysis using GPT models
+- **Multi-Tier Reports**: Different levels of analysis depth (teaser, tier2, tier3)
+- **Secure File Storage**: Protected pitch deck storage with role-based access
+- **User Role Management**: Distinct interfaces for startups, VCs, and admins
+- **Responsive Design**: Optimized experience across all devices
 
-**Use Lovable**
+## Technical Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/645cfb8f-4221-4a78-96b3-d375329eed9a) and start prompting.
+- **Frontend**: React + TypeScript + Vite
+- **UI Framework**: Tailwind CSS + shadcn/ui
+- **Backend**: Supabase (PostgreSQL + Edge Functions)
+- **Authentication**: Supabase Auth
+- **File Storage**: Supabase Storage
+- **AI Integration**: OpenAI GPT API
+- **Payment Processing**: Stripe
 
-Changes made via Lovable will be committed automatically to this repo.
+## Architecture
 
-**Use your preferred IDE**
+### Database Schema
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+The application uses the following main tables:
+- `profiles`: User profile information
+- `pitches`: Startup pitch information
+- `pitch_files`: Associated pitch deck files
+- `reports`: AI-generated analysis reports
+- `user_roles`: Role-based access control
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Edge Functions
 
-Follow these steps:
+- `generate-report`: Handles AI report generation with rate limiting
+- `create-report-checkout`: Manages Stripe payment integration
+- `webhook-stripe`: Processes Stripe webhook events
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## Deployment
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Prerequisites
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Supabase Project
+2. OpenAI API Key
+3. Stripe Account
+4. Node.js & npm
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Environment Variables
+
+Required environment variables:
+```
+SUPABASE_URL
+SUPABASE_ANON_KEY
+OPENAI_API_KEY
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+```
+
+### Deployment Steps
+
+1. Set up Supabase project
+2. Configure authentication providers
+3. Deploy edge functions
+4. Set up Stripe webhook endpoints
+5. Deploy frontend application
+
+## Development
+
+### Local Setup
+
+```bash
+# Clone the repository
+git clone <repository-url>
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Code Organization
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- `/src/components`: Reusable UI components
+- `/src/pages`: Route-specific page components
+- `/src/hooks`: Custom React hooks
+- `/src/integrations`: Third-party service integrations
+- `/supabase/functions`: Edge function implementations
 
-**Use GitHub Codespaces**
+## Future Development Roadmap
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Short-term Improvements
 
-## What technologies are used for this project?
+1. **Performance Optimization**
+   - Implement report caching
+   - Add queue system for large report generations
+   - Optimize image loading and compression
 
-This project is built with .
+2. **User Experience**
+   - Add report preview feature
+   - Implement dark mode
+   - Enhanced mobile navigation
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3. **Security**
+   - Add comprehensive audit logging
+   - Implement additional rate limiting
+   - Enhanced input validation
 
-## How can I deploy this project?
+### Long-term Features
 
-Simply open [Lovable](https://lovable.dev/projects/645cfb8f-4221-4a78-96b3-d375329eed9a) and click on Share -> Publish.
+1. **Analytics Dashboard**
+   - Track user engagement
+   - Monitor report generation metrics
+   - Analyze conversion rates
 
-## I want to use a custom domain - is that possible?
+2. **Enhanced AI Features**
+   - Custom training for industry-specific analysis
+   - Competitor analysis integration
+   - Market trend predictions
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+3. **Collaboration Tools**
+   - In-app messaging system
+   - Deal room functionality
+   - Document version control
+
+4. **Integration Possibilities**
+   - CRM system integration
+   - Calendar scheduling
+   - Due diligence automation
+
+## Maintenance
+
+### Regular Tasks
+
+1. Monitor edge function logs
+2. Review and update RLS policies
+3. Backup database regularly
+4. Update dependencies
+5. Review and optimize queries
+
+### Health Monitoring
+
+- Implement health check endpoints
+- Set up error tracking
+- Monitor API rate limits
+- Track performance metrics
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
+4. Follow code style guidelines
+5. Include tests where applicable
+
+## Support
+
+For technical support or feature requests:
+1. Check existing documentation
+2. Review GitHub issues
+3. Contact development team
+
+## License
+
+This project is proprietary and confidential. All rights reserved.
