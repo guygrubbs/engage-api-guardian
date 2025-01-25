@@ -9,6 +9,98 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      pitch_files: {
+        Row: {
+          created_at: string
+          description: string | null
+          file_name: string
+          file_size: number
+          file_type: string
+          file_url: string
+          id: string
+          pitch_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          file_name: string
+          file_size: number
+          file_type: string
+          file_url: string
+          id?: string
+          pitch_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          file_name?: string
+          file_size?: number
+          file_type?: string
+          file_url?: string
+          id?: string
+          pitch_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pitch_files_pitch_id_fkey"
+            columns: ["pitch_id"]
+            isOneToOne: false
+            referencedRelation: "pitches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      pitches: {
+        Row: {
+          company_description: string | null
+          company_name: string
+          created_at: string
+          funding_goal: number | null
+          id: string
+          industry: string | null
+          pitch_deck_url: string | null
+          stage: string | null
+          status: Database["public"]["Enums"]["pitch_status"] | null
+          team_size: number | null
+          updated_at: string
+          user_id: string
+          website_url: string | null
+        }
+        Insert: {
+          company_description?: string | null
+          company_name: string
+          created_at?: string
+          funding_goal?: number | null
+          id?: string
+          industry?: string | null
+          pitch_deck_url?: string | null
+          stage?: string | null
+          status?: Database["public"]["Enums"]["pitch_status"] | null
+          team_size?: number | null
+          updated_at?: string
+          user_id: string
+          website_url?: string | null
+        }
+        Update: {
+          company_description?: string | null
+          company_name?: string
+          created_at?: string
+          funding_goal?: number | null
+          id?: string
+          industry?: string | null
+          pitch_deck_url?: string | null
+          stage?: string | null
+          status?: Database["public"]["Enums"]["pitch_status"] | null
+          team_size?: number | null
+          updated_at?: string
+          user_id?: string
+          website_url?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -44,7 +136,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      pitch_status:
+        | "draft"
+        | "submitted"
+        | "under_review"
+        | "approved"
+        | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never

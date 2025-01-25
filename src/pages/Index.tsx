@@ -4,9 +4,11 @@ import { ChevronRight, Rocket, LineChart, Shield, Brain } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { PitchSubmissionForm } from "@/components/PitchSubmissionForm";
 
 const Index = () => {
   const [user, setUser] = useState(null);
+  const [showPitchForm, setShowPitchForm] = useState(false);
 
   useEffect(() => {
     // Check current auth status
@@ -37,8 +39,12 @@ const Index = () => {
         <div className="flex gap-4 justify-center">
           {user ? (
             <>
-              <Button size="lg" className="gap-2">
-                Submit Your Pitch <ChevronRight className="h-4 w-4" />
+              <Button 
+                size="lg" 
+                className="gap-2"
+                onClick={() => setShowPitchForm(!showPitchForm)}
+              >
+                {showPitchForm ? 'Hide Form' : 'Submit Your Pitch'} <ChevronRight className="h-4 w-4" />
               </Button>
               <Button 
                 size="lg" 
@@ -57,6 +63,20 @@ const Index = () => {
           )}
         </div>
       </section>
+
+      {/* Pitch Submission Form */}
+      {showPitchForm && user && (
+        <section className="container mx-auto px-4 py-10">
+          <Card>
+            <CardHeader>
+              <CardTitle>Submit Your Pitch</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <PitchSubmissionForm />
+            </CardContent>
+          </Card>
+        </section>
+      )}
 
       {/* Features Section */}
       <section className="container mx-auto px-4 py-20">
