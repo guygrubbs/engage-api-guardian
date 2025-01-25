@@ -20,31 +20,23 @@ const Index = () => {
       <Navigation />
 
       <div className="container mx-auto px-4 py-12 md:py-20">
-        {/* Hero Section with Image */}
-        <div className="text-center mb-20 animate-fade-in relative rounded-3xl overflow-hidden">
-          <div className="absolute inset-0 -z-10">
-            <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-blue-600/90 mix-blend-multiply" />
-            <img
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978"
-              alt="Diverse team collaborating on startup pitch"
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="max-w-4xl mx-auto py-20 px-4">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
+        {/* Hero Section */}
+        <div className="text-center mb-20 animate-fade-in">
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 leading-tight">
               Connect Startups with VCs
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
               Submit pitch decks, generate AI-powered insights, and connect with the right investors.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="group bg-white text-primary hover:bg-white/90 transition-all duration-300" asChild>
+              <Button size="lg" className="group bg-primary hover:bg-primary/90 transition-all duration-300" asChild>
                 <Link to="/auth" className="inline-flex items-center">
                   Get Started 
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
-              <Button size="lg" variant="outline" className="group transition-all duration-300 bg-transparent border-white text-white hover:bg-white/20" asChild>
+              <Button size="lg" variant="outline" className="group transition-all duration-300" asChild>
                 <Link to="/pricing" className="inline-flex items-center">
                   View Pricing
                   <ArrowUpRight className="ml-2 h-4 w-4 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -92,36 +84,38 @@ const Index = () => {
         <div className="text-center mb-20">
           <h2 className="text-3xl font-bold mb-8">Trusted by Leading Startups</h2>
           {isMobile ? (
-            <Carousel className="w-full max-w-xs mx-auto">
-              <CarouselContent>
-                <CarouselItem>
-                  <TestimonialCard
-                    quote="VCConnect helped us secure our Series A funding in record time. The AI insights were invaluable."
-                    author="Sarah Chen"
-                    role="CEO, TechFlow"
-                    image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
-                  />
-                </CarouselItem>
-                <CarouselItem>
-                  <TestimonialCard
-                    quote="The platform streamlined our pitch deck review process and connected us with perfect investors."
-                    author="Michael Rodriguez"
-                    role="Founder, DataSphere"
-                    image="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
-                  />
-                </CarouselItem>
-                <CarouselItem>
-                  <TestimonialCard
-                    quote="Game-changing platform for startups. The market insights helped us refine our strategy."
-                    author="Emily Watson"
-                    role="CTO, GreenTech Solutions"
-                    image="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
-                  />
-                </CarouselItem>
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <div className="will-change-transform">
+              <Carousel className="w-full max-w-xs mx-auto">
+                <CarouselContent>
+                  <CarouselItem>
+                    <TestimonialCard
+                      quote="VCConnect helped us secure our Series A funding in record time. The AI insights were invaluable."
+                      author="Sarah Chen"
+                      role="CEO, TechFlow"
+                      image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+                    />
+                  </CarouselItem>
+                  <CarouselItem>
+                    <TestimonialCard
+                      quote="The platform streamlined our pitch deck review process and connected us with perfect investors."
+                      author="Michael Rodriguez"
+                      role="Founder, DataSphere"
+                      image="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+                    />
+                  </CarouselItem>
+                  <CarouselItem>
+                    <TestimonialCard
+                      quote="Game-changing platform for startups. The market insights helped us refine our strategy."
+                      author="Emily Watson"
+                      role="CTO, GreenTech Solutions"
+                      image="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+                    />
+                  </CarouselItem>
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </div>
           ) : (
             <div className="grid md:grid-cols-3 gap-6">
               <TestimonialCard
@@ -147,24 +141,26 @@ const Index = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="text-center bg-primary/5 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
-          <h2 className="text-3xl font-bold mb-4">Ready to Scale Your Startup?</h2>
-          <p className="text-xl text-muted-foreground mb-8">
-            Join hundreds of successful startups who have found their perfect investors through our platform.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="group bg-primary hover:bg-primary/90 transition-all duration-300" asChild>
-              <Link to="/auth" className="inline-flex items-center">
-                Start Now
-                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </Button>
-            <Button size="lg" variant="outline" className="group transition-all duration-300" asChild>
-              <Link to="/contact" className="inline-flex items-center">
-                Contact Sales
-                <ArrowUpRight className="ml-2 h-4 w-4 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
-              </Link>
-            </Button>
+        <div className="will-change-transform">
+          <div className="text-center bg-primary/5 rounded-2xl p-8 md:p-12 backdrop-blur-sm">
+            <h2 className="text-3xl font-bold mb-4">Ready to Scale Your Startup?</h2>
+            <p className="text-xl text-muted-foreground mb-8">
+              Join hundreds of successful startups who have found their perfect investors through our platform.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button size="lg" className="group bg-primary hover:bg-primary/90 transition-all duration-300" asChild>
+                <Link to="/auth" className="inline-flex items-center">
+                  Start Now
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+              <Button size="lg" variant="outline" className="group transition-all duration-300" asChild>
+                <Link to="/contact" className="inline-flex items-center">
+                  Contact Sales
+                  <ArrowUpRight className="ml-2 h-4 w-4 transition-all group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
       </div>
