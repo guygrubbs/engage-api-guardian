@@ -1,8 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronRight, Rocket, LineChart, Shield, Brain } from "lucide-react";
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // Check current auth status
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
       {/* Hero Section */}
@@ -14,12 +35,26 @@ const Index = () => {
           Submit pitch decks, generate AI-powered insights, and connect with the right investors.
         </p>
         <div className="flex gap-4 justify-center">
-          <Button size="lg" className="gap-2">
-            Submit Your Pitch <ChevronRight className="h-4 w-4" />
-          </Button>
-          <Button size="lg" variant="outline">
-            VC Dashboard
-          </Button>
+          {user ? (
+            <>
+              <Button size="lg" className="gap-2">
+                Submit Your Pitch <ChevronRight className="h-4 w-4" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => supabase.auth.signOut()}
+              >
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <Button size="lg" className="gap-2" asChild>
+              <Link to="/auth">
+                Get Started <ChevronRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          )}
         </div>
       </section>
 
@@ -60,9 +95,11 @@ const Index = () => {
                 Join the platform that's revolutionizing startup fundraising
               </p>
             </div>
-            <Button size="lg" className="w-full md:w-auto">
-              Create Account
-            </Button>
+            {!user && (
+              <Button size="lg" className="w-full md:w-auto" asChild>
+                <Link to="/auth">Create Account</Link>
+              </Button>
+            )}
           </CardContent>
         </Card>
       </section>
