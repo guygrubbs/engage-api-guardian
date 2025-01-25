@@ -16,14 +16,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
+
+type UserRole = "startup" | "vc" | "admin";
 
 type User = {
   id: string;
   email: string;
-  role?: string;
+  role?: UserRole;
 };
 
 export const UserRoleManagement = () => {
@@ -51,17 +52,22 @@ export const UserRoleManagement = () => {
       return profiles.map((profile): User => ({
         id: profile.id,
         email: profile.email,
-        role: roles.find(r => r.user_id === profile.id)?.role || 'startup',
+        role: (roles.find(r => r.user_id === profile.id)?.role as UserRole) || 'startup',
       }));
     },
   });
 
   const updateRole = useMutation({
-    mutationFn: async ({ userId, role }: { userId: string; role: string }) => {
+    mutationFn: async ({ userId, role }: { userId: string; role: UserRole }) => {
       setUpdating(userId);
       const { error } = await supabase
         .from('user_roles')
-        .upsert({ user_id: userId, role }, { onConflict: 'user_id' });
+        .upsert({ 
+          user_id: userId, 
+          role: role 
+        }, { 
+          onConflict: 'user_id, role'
+        });
 
       if (error) throw error;
     },
@@ -104,7 +110,7 @@ export const UserRoleManagement = () => {
                 <div className="flex items-center gap-2">
                   <Select
                     value={user.role}
-                    onValueChange={(newRole) => {
+                    onValueChange={(newRole: UserRole) => {
                       updateRole.mutate({ userId: user.id, role: newRole });
                     }}
                   >
