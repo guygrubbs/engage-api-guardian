@@ -2,42 +2,35 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChevronRight, Building, Briefcase, Handshake, ChartBar, Rocket, ArrowRight, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import Navigation from "@/components/shared/Navigation";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
+  const isMobile = useIsMobile();
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary">
-      {/* Navigation Bar */}
-      <nav className="sticky top-0 z-50 border-b bg-background/80 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <Link to="/" className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-              VCConnect
-            </Link>
-            <div className="flex flex-wrap justify-center gap-2 md:gap-4">
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/about">About</Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/services">Services</Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/pricing">Pricing</Link>
-              </Button>
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/contact">Contact</Link>
-              </Button>
-              <Button size="sm" className="bg-primary hover:bg-primary/90" asChild>
-                <Link to="/auth">Get Started</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navigation />
 
       <div className="container mx-auto px-4 py-12 md:py-20">
-        {/* Hero Section */}
-        <div className="text-center mb-20 animate-fade-in">
-          <div className="max-w-4xl mx-auto">
+        {/* Hero Section with Image */}
+        <div className="text-center mb-20 animate-fade-in relative">
+          <div className="absolute inset-0 -z-10">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-blue-600/10 mix-blend-multiply" />
+            <img
+              src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7"
+              alt="Hero background"
+              className="w-full h-full object-cover opacity-20"
+            />
+          </div>
+          <div className="max-w-4xl mx-auto py-20">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600 leading-tight">
               Connect Startups with VCs
             </h1>
@@ -61,7 +54,7 @@ const Index = () => {
           </div>
         </div>
 
-        {/* Features Grid */}
+        {/* Features Grid with Hover Animations */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           <FeatureCard
             icon={<Rocket className="h-8 w-8" />}
@@ -95,29 +88,62 @@ const Index = () => {
           />
         </div>
 
-        {/* Social Proof Section */}
+        {/* Testimonials Section with Carousel for Mobile */}
         <div className="text-center mb-20">
           <h2 className="text-3xl font-bold mb-8">Trusted by Leading Startups</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <TestimonialCard
-              quote="VCConnect helped us secure our Series A funding in record time. The AI insights were invaluable."
-              author="Sarah Chen"
-              role="CEO, TechFlow"
-              image="/placeholder.svg"
-            />
-            <TestimonialCard
-              quote="The platform streamlined our pitch deck review process and connected us with perfect investors."
-              author="Michael Rodriguez"
-              role="Founder, DataSphere"
-              image="/placeholder.svg"
-            />
-            <TestimonialCard
-              quote="Game-changing platform for startups. The market insights helped us refine our strategy."
-              author="Emily Watson"
-              role="CTO, GreenTech Solutions"
-              image="/placeholder.svg"
-            />
-          </div>
+          {isMobile ? (
+            <Carousel className="w-full max-w-xs mx-auto">
+              <CarouselContent>
+                <CarouselItem>
+                  <TestimonialCard
+                    quote="VCConnect helped us secure our Series A funding in record time. The AI insights were invaluable."
+                    author="Sarah Chen"
+                    role="CEO, TechFlow"
+                    image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+                  />
+                </CarouselItem>
+                <CarouselItem>
+                  <TestimonialCard
+                    quote="The platform streamlined our pitch deck review process and connected us with perfect investors."
+                    author="Michael Rodriguez"
+                    role="Founder, DataSphere"
+                    image="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+                  />
+                </CarouselItem>
+                <CarouselItem>
+                  <TestimonialCard
+                    quote="Game-changing platform for startups. The market insights helped us refine our strategy."
+                    author="Emily Watson"
+                    role="CTO, GreenTech Solutions"
+                    image="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+                  />
+                </CarouselItem>
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
+          ) : (
+            <div className="grid md:grid-cols-3 gap-6">
+              <TestimonialCard
+                quote="VCConnect helped us secure our Series A funding in record time. The AI insights were invaluable."
+                author="Sarah Chen"
+                role="CEO, TechFlow"
+                image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158"
+              />
+              <TestimonialCard
+                quote="The platform streamlined our pitch deck review process and connected us with perfect investors."
+                author="Michael Rodriguez"
+                role="Founder, DataSphere"
+                image="https://images.unsplash.com/photo-1519389950473-47ba0277781c"
+              />
+              <TestimonialCard
+                quote="Game-changing platform for startups. The market insights helped us refine our strategy."
+                author="Emily Watson"
+                role="CTO, GreenTech Solutions"
+                image="https://images.unsplash.com/photo-1581092795360-fd1ca04f0952"
+              />
+            </div>
+          )}
         </div>
 
         {/* CTA Section */}
@@ -147,24 +173,26 @@ const Index = () => {
 };
 
 const FeatureCard = ({ icon, title, description }: { icon: React.ReactNode; title: string; description: string }) => (
-  <Card className="group hover:shadow-lg transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/10">
+  <Card className="group hover:shadow-lg transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/10 hover:-translate-y-1">
     <CardHeader>
       <div className="mb-4 text-primary group-hover:scale-110 transition-transform duration-300">{icon}</div>
-      <CardTitle className="text-xl mb-2">{title}</CardTitle>
+      <CardTitle className="text-xl mb-2 group-hover:text-primary transition-colors">{title}</CardTitle>
       <p className="text-muted-foreground">{description}</p>
     </CardHeader>
   </Card>
 );
 
 const TestimonialCard = ({ quote, author, role, image }: { quote: string; author: string; role: string; image: string }) => (
-  <Card className="hover:shadow-lg transition-all duration-300">
-    <CardContent className="pt-6">
+  <Card className="hover:shadow-lg transition-all duration-300 h-full">
+    <CardContent className="pt-6 flex flex-col h-full">
       <div className="w-16 h-16 mx-auto mb-4 rounded-full overflow-hidden">
         <img src={image} alt={author} className="w-full h-full object-cover" />
       </div>
-      <p className="italic text-muted-foreground mb-4">{quote}</p>
-      <p className="font-semibold">{author}</p>
-      <p className="text-sm text-muted-foreground">{role}</p>
+      <p className="italic text-muted-foreground mb-4 flex-grow">{quote}</p>
+      <div>
+        <p className="font-semibold">{author}</p>
+        <p className="text-sm text-muted-foreground">{role}</p>
+      </div>
     </CardContent>
   </Card>
 );
