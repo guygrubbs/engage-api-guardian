@@ -128,6 +128,65 @@ export type Database = {
         }
         Relationships: []
       }
+      reports: {
+        Row: {
+          content: Json
+          created_at: string
+          id: string
+          is_paid: boolean | null
+          pitch_id: string
+          tier: Database["public"]["Enums"]["report_tier"]
+          updated_at: string
+        }
+        Insert: {
+          content: Json
+          created_at?: string
+          id?: string
+          is_paid?: boolean | null
+          pitch_id: string
+          tier: Database["public"]["Enums"]["report_tier"]
+          updated_at?: string
+        }
+        Update: {
+          content?: Json
+          created_at?: string
+          id?: string
+          is_paid?: boolean | null
+          pitch_id?: string
+          tier?: Database["public"]["Enums"]["report_tier"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reports_pitch_id_fkey"
+            columns: ["pitch_id"]
+            isOneToOne: false
+            referencedRelation: "pitches"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -142,6 +201,8 @@ export type Database = {
         | "under_review"
         | "approved"
         | "rejected"
+      report_tier: "teaser" | "tier2" | "tier3"
+      user_role: "startup" | "vc"
     }
     CompositeTypes: {
       [_ in never]: never
