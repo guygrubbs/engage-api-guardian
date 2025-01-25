@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { FileText, Lock } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FileText, Lock, Download } from "lucide-react";
 import { PurchaseReportButton } from "./PurchaseReportButton";
 
 interface ReportCardProps {
@@ -12,9 +13,10 @@ interface ReportCardProps {
     created_at: string;
   };
   companyName: string;
+  onDownload?: () => void;
 }
 
-export const ReportCard = ({ report, companyName }: ReportCardProps) => {
+export const ReportCard = ({ report, companyName, onDownload }: ReportCardProps) => {
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString();
   };
@@ -48,9 +50,20 @@ export const ReportCard = ({ report, companyName }: ReportCardProps) => {
       </CardHeader>
       <CardContent>
         {report.is_paid || report.tier === 'teaser' ? (
-          <pre className="whitespace-pre-wrap text-sm">
-            {JSON.stringify(report.content, null, 2)}
-          </pre>
+          <div>
+            <pre className="whitespace-pre-wrap text-sm mb-4">
+              {JSON.stringify(report.content, null, 2)}
+            </pre>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onDownload}
+              className="mt-4"
+            >
+              <Download className="h-4 w-4 mr-2" />
+              Download Report
+            </Button>
+          </div>
         ) : (
           <div className="text-center py-4">
             <p className="text-muted-foreground mb-4">

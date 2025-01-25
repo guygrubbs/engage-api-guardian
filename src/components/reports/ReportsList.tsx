@@ -3,34 +3,68 @@ import { supabase } from "@/integrations/supabase/client";
 import { ReportCard } from "./ReportCard";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Loader } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 
 interface ReportsListProps {
-  pitchId?: string; // Optional - if provided, only shows reports for this pitch
+  pitchId?: string;
 }
 
 export const ReportsList = ({ pitchId }: ReportsListProps) => {
-  const { data: reports, isLoading, error } = useQuery({
+  const { data: reports, isLoading, error, refetch } = useQuery({
     queryKey: ['reports', pitchId],
     queryFn: async () => {
-      let query = supabase
-        .from('reports')
-        .select(`
-          *,
-          pitches (
-            company_name
-          )
-        `)
-        .order('created_at', { ascending: false });
+      try {
+        let query = supabase
+          .from('reports')
+          .select(`
+            *,
+            pitches (
+              company_name
+            )
+          `)
+          .order('created_at', { ascending: false });
 
-      if (pitchId) {
-        query = query.eq('pitch_id', pitchId);
+        if (pitchId) {
+          query = query.eq('pitch_id', pitchId);
+        }
+
+        const { data, error } = await query;
+        if (error) throw error;
+        return data;
+      } catch (error) {
+        console.error('Error fetching reports:', error);
+        toast({
+          title: "Error",
+          description: "Failed to load reports. Please try again.",
+          variant: "destructive",
+        });
+        throw error;
       }
-
-      const { data, error } = await query;
-      if (error) throw error;
-      return data;
     },
+    retry: 2,
   });
+
+  const handleDownload = async (report: any) => {
+    try {
+      const jsonString = JSON.stringify(report.content, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${report.pitches.company_name}-${report.tier}-report.json`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error downloading report:', error);
+      toast({
+        title: "Error",
+        description: "Failed to download report. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -43,7 +77,15 @@ export const ReportsList = ({ pitchId }: ReportsListProps) => {
   if (error) {
     return (
       <Alert variant="destructive">
-        <AlertDescription>Failed to load reports</AlertDescription>
+        <AlertDescription>
+          Failed to load reports
+          <button
+            onClick={() => refetch()}
+            className="ml-2 underline hover:no-underline"
+          >
+            Try again
+          </button>
+        </AlertDescription>
       </Alert>
     );
   }
@@ -63,6 +105,7 @@ export const ReportsList = ({ pitchId }: ReportsListProps) => {
           key={report.id}
           report={report}
           companyName={report.pitches.company_name}
+          onDownload={() => handleDownload(report)}
         />
       ))}
     </div>
