@@ -1,7 +1,8 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Lock, Download } from "lucide-react";
+import { FileText, Lock, Download, AlertTriangle } from "lucide-react";
 import { PurchaseReportButton } from "./PurchaseReportButton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ReportCardProps {
   report: {
@@ -32,8 +33,10 @@ export const ReportCard = ({ report, companyName, onDownload }: ReportCardProps)
     }
   };
 
+  const isError = report.content?.status === 'error';
+
   return (
-    <Card className="w-full">
+    <Card className="w-full transition-all duration-300 hover:shadow-lg">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -49,32 +52,41 @@ export const ReportCard = ({ report, companyName, onDownload }: ReportCardProps)
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {report.is_paid || report.tier === 'teaser' ? (
-          <div>
-            <pre className="whitespace-pre-wrap text-sm mb-4">
-              {JSON.stringify(report.content, null, 2)}
-            </pre>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={onDownload}
-              className="mt-4"
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Download Report
-            </Button>
-          </div>
+        {isError ? (
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertDescription>
+              There was an error generating this report. Please try again later.
+            </AlertDescription>
+          </Alert>
         ) : (
-          <div className="text-center py-4">
-            <p className="text-muted-foreground mb-4">
-              Purchase this report to view detailed insights
-            </p>
-            <PurchaseReportButton
-              pitchId={report.pitch_id}
-              tier={report.tier}
-              className="w-full sm:w-auto"
-            />
-          </div>
+          report.is_paid || report.tier === 'teaser' ? (
+            <div>
+              <pre className="whitespace-pre-wrap text-sm mb-4 bg-muted p-4 rounded-lg">
+                {JSON.stringify(report.content, null, 2)}
+              </pre>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onDownload}
+                className="mt-4"
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download Report
+              </Button>
+            </div>
+          ) : (
+            <div className="text-center py-4">
+              <p className="text-muted-foreground mb-4">
+                Purchase this report to view detailed insights
+              </p>
+              <PurchaseReportButton
+                pitchId={report.pitch_id}
+                tier={report.tier}
+                className="w-full sm:w-auto"
+              />
+            </div>
+          )
         )}
       </CardContent>
     </Card>

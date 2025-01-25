@@ -3,6 +3,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { RateLimiter } from './rateLimiter.ts';
 import { generateRealReport } from './reportGenerator.ts';
+import { CompanyData } from './types.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -15,22 +16,23 @@ const rateLimiter = new RateLimiter({
 });
 
 async function validateInput(data: any) {
-  const requiredFields = ['pitchId'];
-  for (const field of requiredFields) {
-    if (!data[field]) {
-      throw new Error(`Missing required field: ${field}`);
-    }
+  if (!data.pitchId) {
+    throw new Error('Missing required field: pitchId');
   }
 }
 
 serve(async (req) => {
+  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
+  console.log('Received report generation request');
+
   try {
     const clientIP = req.headers.get('x-forwarded-for') || 'unknown';
     if (!await rateLimiter.isAllowed(clientIP)) {
+      console.warn(`Rate limit exceeded for IP: ${clientIP}`);
       return new Response(
         JSON.stringify({ error: 'Too many requests. Please try again later.' }),
         { 
@@ -44,27 +46,36 @@ serve(async (req) => {
     await validateInput(requestData);
     const { pitchId } = requestData;
 
+    console.log(`Generating report for pitch ID: ${pitchId}`);
+
     const supabaseUrl = Deno.env.get('SUPABASE_URL') ?? '';
     const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
     const supabase = createClient(supabaseUrl, supabaseKey);
 
+    // Fetch pitch data
     const { data: pitch, error: pitchError } = await supabase
       .from('pitches')
       .select('*')
       .eq('id', pitchId)
-      .single();
+      .maybeSingle();
 
     if (pitchError) {
       console.error('Pitch fetch error:', pitchError);
       throw new Error('Failed to fetch pitch data');
     }
 
+    if (!pitch) {
+      throw new Error('Pitch not found');
+    }
+
+    // Generate reports for all tiers
     const reports = await Promise.all([
-      { tier: 'teaser', content: await generateRealReport(pitch, 'teaser') },
-      { tier: 'tier2', content: await generateRealReport(pitch, 'tier2') },
-      { tier: 'tier3', content: await generateRealReport(pitch, 'tier3') }
+      { tier: 'teaser', content: await generateRealReport(pitch as CompanyData, 'teaser') },
+      { tier: 'tier2', content: await generateRealReport(pitch as CompanyData, 'tier2') },
+      { tier: 'tier3', content: await generateRealReport(pitch as CompanyData, 'tier3') }
     ]);
 
+    // Save reports to database
     const { error: reportsError } = await supabase
       .from('reports')
       .insert(
@@ -81,7 +92,7 @@ serve(async (req) => {
       throw new Error('Failed to save reports');
     }
 
-    console.log('Reports generated successfully for pitch:', pitchId);
+    console.log(`Successfully generated and saved reports for pitch: ${pitchId}`);
 
     return new Response(
       JSON.stringify({ 
