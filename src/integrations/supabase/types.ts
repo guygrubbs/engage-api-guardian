@@ -166,6 +166,111 @@ export type Database = {
           },
         ]
       }
+      submission_checklists: {
+        Row: {
+          acquisition_channels: string | null
+          acquisition_costs: number | null
+          annual_revenue: number | null
+          benchmarking_data: string | null
+          case_studies: string | null
+          competitive_advantages: string | null
+          competitors: string | null
+          created_at: string
+          customer_feedback: string | null
+          customer_pain_points: string | null
+          economic_factors: string | null
+          hiring_plans: string | null
+          id: string
+          identified_gaps: string | null
+          industry: string | null
+          leadership_profiles: string | null
+          market_size: number | null
+          market_trends: string | null
+          monthly_revenue: number | null
+          opportunity_drivers: string | null
+          regulatory_environment: string | null
+          retention_metrics: string | null
+          revenue_streams: string | null
+          sales_funnel: string | null
+          status: Database["public"]["Enums"]["submission_status"] | null
+          target_audience: string | null
+          target_customer: string | null
+          team_structure: string | null
+          tech_factors: string | null
+          updated_at: string
+          user_id: string
+          yoy_growth: number | null
+        }
+        Insert: {
+          acquisition_channels?: string | null
+          acquisition_costs?: number | null
+          annual_revenue?: number | null
+          benchmarking_data?: string | null
+          case_studies?: string | null
+          competitive_advantages?: string | null
+          competitors?: string | null
+          created_at?: string
+          customer_feedback?: string | null
+          customer_pain_points?: string | null
+          economic_factors?: string | null
+          hiring_plans?: string | null
+          id?: string
+          identified_gaps?: string | null
+          industry?: string | null
+          leadership_profiles?: string | null
+          market_size?: number | null
+          market_trends?: string | null
+          monthly_revenue?: number | null
+          opportunity_drivers?: string | null
+          regulatory_environment?: string | null
+          retention_metrics?: string | null
+          revenue_streams?: string | null
+          sales_funnel?: string | null
+          status?: Database["public"]["Enums"]["submission_status"] | null
+          target_audience?: string | null
+          target_customer?: string | null
+          team_structure?: string | null
+          tech_factors?: string | null
+          updated_at?: string
+          user_id: string
+          yoy_growth?: number | null
+        }
+        Update: {
+          acquisition_channels?: string | null
+          acquisition_costs?: number | null
+          annual_revenue?: number | null
+          benchmarking_data?: string | null
+          case_studies?: string | null
+          competitive_advantages?: string | null
+          competitors?: string | null
+          created_at?: string
+          customer_feedback?: string | null
+          customer_pain_points?: string | null
+          economic_factors?: string | null
+          hiring_plans?: string | null
+          id?: string
+          identified_gaps?: string | null
+          industry?: string | null
+          leadership_profiles?: string | null
+          market_size?: number | null
+          market_trends?: string | null
+          monthly_revenue?: number | null
+          opportunity_drivers?: string | null
+          regulatory_environment?: string | null
+          retention_metrics?: string | null
+          revenue_streams?: string | null
+          sales_funnel?: string | null
+          status?: Database["public"]["Enums"]["submission_status"] | null
+          target_audience?: string | null
+          target_customer?: string | null
+          team_structure?: string | null
+          tech_factors?: string | null
+          updated_at?: string
+          user_id?: string
+          yoy_growth?: number | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -202,6 +307,12 @@ export type Database = {
         | "approved"
         | "rejected"
       report_tier: "teaser" | "tier2" | "tier3"
+      submission_status:
+        | "draft"
+        | "submitted"
+        | "in_review"
+        | "approved"
+        | "rejected"
       user_role: "startup" | "vc" | "admin"
     }
     CompositeTypes: {
