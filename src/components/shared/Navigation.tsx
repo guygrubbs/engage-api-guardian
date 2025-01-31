@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import { ClipboardList } from "lucide-react";
 
 const Navigation = () => {
   return (
-    <nav className="border-b">
+    <nav className="border-b bg-background">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
@@ -14,8 +15,9 @@ const Navigation = () => {
           <div className="flex items-center space-x-4">
             <Link
               to="/submission-checklist"
-              className="text-sm font-medium hover:text-primary"
+              className="text-sm font-medium hover:text-primary inline-flex items-center"
             >
+              <ClipboardList className="mr-2 h-4 w-4" />
               Submit Information
             </Link>
             <Link to="/auth" className="text-sm font-medium hover:text-primary">
