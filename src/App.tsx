@@ -1,14 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
-import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import SubmissionChecklist from "@/pages/SubmissionChecklist";
 import SubmissionFormPage from "@/pages/SubmissionFormPage";
+import Pricing from "@/pages/Pricing";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Index />,
+    element: <Auth />,
   },
   {
     path: "/auth",
@@ -25,6 +25,10 @@ const router = createBrowserRouter([
   {
     path: "/submission-form",
     element: <SubmissionFormPage />,
+  },
+  {
+    path: "/pricing",
+    element: <Pricing />,
   },
 ]);
 
