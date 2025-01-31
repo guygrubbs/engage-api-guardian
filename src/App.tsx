@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import SubmissionChecklist from "@/pages/SubmissionChecklist";
@@ -8,7 +9,7 @@ import Pricing from "@/pages/Pricing";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Auth />,
+    element: <Index />,
   },
   {
     path: "/auth",
