@@ -3,6 +3,7 @@ import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
 import SubmissionChecklist from "@/pages/SubmissionChecklist";
+import SubmissionFormPage from "@/pages/SubmissionFormPage";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/submission-checklist",
     element: <SubmissionChecklist />,
+  },
+  {
+    path: "/submission-form",
+    element: <SubmissionFormPage />,
   },
 ]);
 
