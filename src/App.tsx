@@ -5,6 +5,7 @@ import Dashboard from "@/pages/Dashboard";
 import SubmissionChecklist from "@/pages/SubmissionChecklist";
 import SubmissionFormPage from "@/pages/SubmissionFormPage";
 import Pricing from "@/pages/Pricing";
+import Contact from "@/pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/pricing",
     element: <Pricing />,
+  },
+  {
+    path: "/contact",
+    element: <Contact />,
   },
 ]);
 

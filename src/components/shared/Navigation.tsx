@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ClipboardList } from "lucide-react";
+import { ClipboardList, Phone } from "lucide-react";
 
 const Navigation = () => {
   return (
@@ -20,14 +20,18 @@ const Navigation = () => {
               <ClipboardList className="mr-2 h-4 w-4" />
               Submit Information
             </Link>
+            <Link to="/pricing" className="text-sm font-medium hover:text-primary">
+              Pricing
+            </Link>
+            <Link to="/contact" className="text-sm font-medium hover:text-primary inline-flex items-center">
+              <Phone className="mr-2 h-4 w-4" />
+              Contact Sales
+            </Link>
             <Link to="/auth" className="text-sm font-medium hover:text-primary">
               Login
             </Link>
             <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
               Dashboard
-            </Link>
-            <Link to="/pricing" className="text-sm font-medium hover:text-primary">
-              Pricing
             </Link>
           </div>
         </div>
