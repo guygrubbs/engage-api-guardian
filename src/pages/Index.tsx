@@ -1,7 +1,7 @@
-import { HeroSection } from "@/components/home/HeroSection";
-import { FeatureCard } from "@/components/home/FeatureCard";
-import { TestimonialCard } from "@/components/home/TestimonialCard";
-import { CTASection } from "@/components/home/CTASection";
+import HeroSection from "@/components/home/HeroSection";
+import FeatureCard from "@/components/home/FeatureCard";
+import TestimonialCard from "@/components/home/TestimonialCard";
+import CTASection from "@/components/home/CTASection";
 
 const Index = () => {
   return (
@@ -12,17 +12,17 @@ const Index = () => {
           <FeatureCard
             title="Pitch Analysis"
             description="Get detailed analysis and feedback on your pitch deck from industry experts."
-            icon="chart"
+            icon={<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">📊</div>}
           />
           <FeatureCard
             title="Market Insights"
             description="Access comprehensive market data and competitor analysis."
-            icon="search"
+            icon={<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">🔍</div>}
           />
           <FeatureCard
             title="Expert Network"
             description="Connect with experienced mentors and industry professionals."
-            icon="users"
+            icon={<div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">👥</div>}
           />
         </div>
       </div>
@@ -34,16 +34,19 @@ const Index = () => {
               quote="This platform helped us refine our pitch and connect with the right investors."
               author="Sarah Chen"
               role="CEO, TechStart"
+              image="/placeholder.svg"
             />
             <TestimonialCard
               quote="The market insights were invaluable for our fundraising strategy."
               author="Michael Rodriguez"
               role="Founder, DataFlow"
+              image="/placeholder.svg"
             />
             <TestimonialCard
               quote="We secured our seed round within weeks of using this platform."
               author="Lisa Thompson"
               role="CTO, GreenTech"
+              image="/placeholder.svg"
             />
           </div>
         </div>
