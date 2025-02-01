@@ -47,10 +47,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-// Create a new QueryClient instance
 const queryClient = new QueryClient();
 
-// Export the App component that wraps the router with QueryClientProvider
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 

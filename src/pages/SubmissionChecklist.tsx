@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ChevronRight, ClipboardList } from "lucide-react";
-import Navigation from "@/components/shared/Navigation";
+import { Check, ChevronRight } from "lucide-react";
 
 const SubmissionChecklist = () => {
   const navigate = useNavigate();
@@ -26,21 +25,18 @@ const SubmissionChecklist = () => {
   );
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-3xl font-bold mb-6">Company Information Checklist</h1>
-          
-          <Alert className="mb-6">
-            <AlertDescription>
-              This checklist outlines all the information that helps us provide better advice for your company. 
-              You can proceed with submitting any amount of information you have available - more information helps us give better advice, but partial submissions are welcome.
-            </AlertDescription>
-          </Alert>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Company Information Checklist</h1>
+        
+        <Alert className="mb-6">
+          <AlertDescription>
+            This checklist outlines all the information that helps us provide better advice for your company. 
+            You can proceed with submitting any amount of information you have available - more information helps us give better advice, but partial submissions are welcome.
+          </AlertDescription>
+        </Alert>
 
-          <Tabs defaultValue="market" className="space-y-6" onValueChange={setActiveTab}>
+        <Tabs defaultValue="market" className="space-y-6" onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
               <TabsTrigger value="market">Market</TabsTrigger>
               <TabsTrigger value="competition">Competition</TabsTrigger>
@@ -173,17 +169,16 @@ const SubmissionChecklist = () => {
                 </TabsContent>
               </CardContent>
             </Card>
-          </Tabs>
+        </Tabs>
 
-          <div className="mt-8 flex justify-end">
-            <Button 
-              onClick={() => navigate('/submission-form')} 
-              className="flex items-center"
-            >
-              Proceed to Submission Form
-              <ChevronRight className="ml-2 h-4 w-4" />
-            </Button>
-          </div>
+        <div className="mt-8 flex justify-end">
+          <Button 
+            onClick={() => navigate('/submission-form')} 
+            className="flex items-center"
+          >
+            Proceed to Submission Form
+            <ChevronRight className="ml-2 h-4 w-4" />
+          </Button>
         </div>
       </div>
     </div>
