@@ -1,4 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Index from "@/pages/Index";
 import Auth from "@/pages/Auth";
 import Dashboard from "@/pages/Dashboard";
@@ -38,4 +39,16 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default router;
+// Create a new QueryClient instance
+const queryClient = new QueryClient();
+
+// Export the App component that wraps the router with QueryClientProvider
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
+};
+
+export default App;
