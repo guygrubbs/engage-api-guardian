@@ -34,19 +34,19 @@ const Index = () => {
               quote="This platform helped us refine our pitch and connect with the right investors."
               author="Sarah Chen"
               role="CEO, TechStart"
-              image="/placeholder.svg"
+              image="https://images.unsplash.com/photo-1494790108377-be9c29b29330"
             />
             <TestimonialCard
               quote="The market insights were invaluable for our fundraising strategy."
               author="Michael Rodriguez"
               role="Founder, DataFlow"
-              image="/placeholder.svg"
+              image="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e"
             />
             <TestimonialCard
               quote="We secured our seed round within weeks of using this platform."
               author="Lisa Thompson"
               role="CTO, GreenTech"
-              image="/placeholder.svg"
+              image="https://images.unsplash.com/photo-1438761681033-6461ffad8d80"
             />
           </div>
         </div>
