@@ -1,7 +1,32 @@
 import { Link } from "react-router-dom";
 import { ClipboardList, Phone } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "../ui/button";
 
 const Navigation = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    // Check initial auth state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+
+    // Subscribe to auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setIsAuthenticated(!!session);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
     <nav className="border-b bg-background">
       <div className="container mx-auto px-4">
@@ -27,12 +52,20 @@ const Navigation = () => {
               <Phone className="mr-2 h-4 w-4" />
               Contact Sales
             </Link>
-            <Link to="/auth" className="text-sm font-medium hover:text-primary">
-              Login
-            </Link>
-            <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
-              Dashboard
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
+                  Dashboard
+                </Link>
+                <Button variant="outline" onClick={handleSignOut}>
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth" className="text-sm font-medium hover:text-primary">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>
