@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CompanyInfoStep } from "./steps/CompanyInfoStep";
 import { DocumentsStep } from "./steps/DocumentsStep";
@@ -8,14 +7,15 @@ import { SubmissionGuidelines } from "./SubmissionGuidelines";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import { CompanyInfoInputs, BusinessInfoInputs } from "@/schemas/pitch-submission";
 
 export const MultiStepSubmissionForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<CompanyInfoInputs & Partial<BusinessInfoInputs>>({
     companyName: "",
     website: "",
     industry: "",
-    stage: "",
+    stage: "idea",
     problemStatement: "",
     solution: "",
     tractionMetrics: "",
@@ -27,26 +27,36 @@ export const MultiStepSubmissionForm = () => {
   
   const navigate = useNavigate();
 
-  const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, 3));
+  const handleCompanyInfoNext = (data: CompanyInfoInputs) => {
+    setFormData(prev => ({ ...prev, ...data }));
+    setCurrentStep(2);
   };
 
-  const handleBack = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
+  const handleDocumentsNext = () => {
+    if (!files.pitchDeck) {
+      toast({
+        title: "Required Document Missing",
+        description: "Please upload a pitch deck before proceeding.",
+        variant: "destructive",
+      });
+      return;
+    }
+    setCurrentStep(3);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (businessInfo: BusinessInfoInputs) => {
     const { data: { user } } = await supabase.auth.getUser();
     
     if (!user) {
-      // Save form data to localStorage before redirecting
-      localStorage.setItem('pendingSubmission', JSON.stringify({ formData, files }));
+      localStorage.setItem('pendingSubmission', JSON.stringify({ 
+        formData: { ...formData, ...businessInfo }, 
+        files 
+      }));
       navigate('/auth');
       return;
     }
 
     try {
-      // Submit the pitch
       const { data: pitch, error: pitchError } = await supabase
         .from('pitches')
         .insert({
@@ -54,7 +64,7 @@ export const MultiStepSubmissionForm = () => {
           website_url: formData.website,
           industry: formData.industry,
           stage: formData.stage,
-          company_description: formData.problemStatement,
+          company_description: businessInfo.problemStatement,
           user_id: user.id,
           status: 'draft'
         })
@@ -63,7 +73,6 @@ export const MultiStepSubmissionForm = () => {
 
       if (pitchError) throw pitchError;
 
-      // Upload files if they exist
       if (files.pitchDeck) {
         const fileName = `${crypto.randomUUID()}-${files.pitchDeck.name}`;
         const { error: uploadError } = await supabase.storage
@@ -72,7 +81,6 @@ export const MultiStepSubmissionForm = () => {
 
         if (uploadError) throw uploadError;
 
-        // Link the file to the pitch
         const { error: fileError } = await supabase
           .from('pitch_files')
           .insert({
@@ -130,24 +138,22 @@ export const MultiStepSubmissionForm = () => {
       <Card className="p-6 mb-8">
         {currentStep === 1 && (
           <CompanyInfoStep 
-            formData={formData}
-            onChange={setFormData}
-            onNext={handleNext}
+            defaultValues={formData}
+            onNext={handleCompanyInfoNext}
           />
         )}
         {currentStep === 2 && (
           <DocumentsStep
             files={files}
             onChange={setFiles}
-            onNext={handleNext}
-            onBack={handleBack}
+            onNext={handleDocumentsNext}
+            onBack={() => setCurrentStep(1)}
           />
         )}
         {currentStep === 3 && (
           <BusinessInfoStep
-            formData={formData}
-            onChange={setFormData}
-            onBack={handleBack}
+            defaultValues={formData}
+            onBack={() => setCurrentStep(2)}
             onSubmit={handleSubmit}
           />
         )}

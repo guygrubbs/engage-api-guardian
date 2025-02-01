@@ -1,64 +1,94 @@
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Textarea } from "@/components/ui/textarea";
+import { BusinessInfoInputs, businessInfoSchema } from "@/schemas/pitch-submission";
 
 interface BusinessInfoStepProps {
-  formData: any;
-  onChange: (data: any) => void;
+  defaultValues?: Partial<BusinessInfoInputs>;
   onBack: () => void;
-  onSubmit: () => void;
+  onSubmit: (data: BusinessInfoInputs) => void;
 }
 
-export const BusinessInfoStep = ({ formData, onChange, onBack, onSubmit }: BusinessInfoStepProps) => {
-  const handleChange = (field: string, value: string) => {
-    onChange({ ...formData, [field]: value });
-  };
+export const BusinessInfoStep = ({ defaultValues, onBack, onSubmit }: BusinessInfoStepProps) => {
+  const form = useForm<BusinessInfoInputs>({
+    resolver: zodResolver(businessInfoSchema),
+    defaultValues: defaultValues || {
+      problemStatement: "",
+      solution: "",
+      tractionMetrics: "",
+    },
+  });
 
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Business Information</h2>
       
-      <div className="space-y-4">
-        <div>
-          <Label htmlFor="problemStatement">Problem Statement *</Label>
-          <Textarea
-            id="problemStatement"
-            placeholder="What problem are you solving?"
-            value={formData.problemStatement}
-            onChange={(e) => handleChange('problemStatement', e.target.value)}
-            className="min-h-[100px]"
-            required
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <FormField
+            control={form.control}
+            name="problemStatement"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Problem Statement *</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="What problem are you solving?"
+                    className="min-h-[100px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <div>
-          <Label htmlFor="solution">Solution *</Label>
-          <Textarea
-            id="solution"
-            placeholder="How does your product/service solve this problem?"
-            value={formData.solution}
-            onChange={(e) => handleChange('solution', e.target.value)}
-            className="min-h-[100px]"
-            required
+          <FormField
+            control={form.control}
+            name="solution"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Solution *</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="How does your product/service solve this problem?"
+                    className="min-h-[100px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <div>
-          <Label htmlFor="tractionMetrics">Traction & Metrics</Label>
-          <Textarea
-            id="tractionMetrics"
-            placeholder="Current users, revenue, growth rate, etc."
-            value={formData.tractionMetrics}
-            onChange={(e) => handleChange('tractionMetrics', e.target.value)}
-            className="min-h-[100px]"
+          <FormField
+            control={form.control}
+            name="tractionMetrics"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Traction & Metrics</FormLabel>
+                <FormControl>
+                  <Textarea
+                    {...field}
+                    placeholder="Current users, revenue, growth rate, etc."
+                    className="min-h-[100px]"
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-      </div>
 
-      <div className="flex justify-between">
-        <Button variant="outline" onClick={onBack}>Back</Button>
-        <Button onClick={onSubmit}>Submit Pitch</Button>
-      </div>
+          <div className="flex justify-between">
+            <Button type="button" variant="outline" onClick={onBack}>
+              Back
+            </Button>
+            <Button type="submit">Submit Pitch</Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };
