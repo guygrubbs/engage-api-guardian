@@ -1,0 +1,14 @@
+# Use official Python image as the base
+FROM python:3.10
+
+# Set the working directory
+WORKDIR /app
+
+# Copy all project files
+COPY . .
+
+# Install dependencies
+RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Start Celery worker
+CMD ["celery", "-A", "tasks.tasks", "worker", "--loglevel=info"]

@@ -1,0 +1,22 @@
+# Flask & Web Server
+flask
+gunicorn
+
+# Task Queue & Redis
+celery
+redis
+flower
+
+# Google Cloud Services
+google-cloud-storage
+google-cloud-documentai
+
+# AI & LLMs
+openai
+crewai
+
+# Environment Variables
+python-dotenv
+
+# Logging & Monitoring
+flask-cors
