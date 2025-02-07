@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { CompanyInfoStep } from "./steps/CompanyInfoStep";
@@ -66,40 +67,65 @@ export const MultiStepSubmissionForm = () => {
           stage: formData.stage,
           company_description: businessInfo.problemStatement,
           user_id: user.id,
-          status: 'draft'
+          status: 'pending'
         })
         .select()
         .single();
 
       if (pitchError) throw pitchError;
 
+      // Upload documents to Google Cloud Storage via backend API
+      const formDataToSend = new FormData();
       if (files.pitchDeck) {
-        const fileName = `${crypto.randomUUID()}-${files.pitchDeck.name}`;
-        const { error: uploadError } = await supabase.storage
-          .from('pitch-files')
-          .upload(fileName, files.pitchDeck);
-
-        if (uploadError) throw uploadError;
-
-        const { error: fileError } = await supabase
-          .from('pitch_files')
-          .insert({
-            pitch_id: pitch.id,
-            file_name: files.pitchDeck.name,
-            file_url: fileName,
-            file_type: files.pitchDeck.type,
-            file_size: files.pitchDeck.size
-          });
-
-        if (fileError) throw fileError;
+        formDataToSend.append('pitchDeck', files.pitchDeck);
       }
+      files.additionalDocs.forEach((file, index) => {
+        formDataToSend.append(`additionalDoc${index}`, file);
+      });
+      formDataToSend.append('pitchId', pitch.id);
+      formDataToSend.append('companyName', formData.companyName);
+
+      const response = await fetch('/generate_report', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process documents');
+      }
+
+      const { task_id } = await response.json();
+
+      // Start polling for report generation status
+      const pollStatus = async () => {
+        const statusResponse = await fetch(`/report_status/${task_id}`);
+        const statusData = await statusResponse.json();
+        
+        if (statusData.status === 'completed') {
+          toast({
+            title: "Success",
+            description: "Your pitch has been submitted and report generation is complete.",
+          });
+          navigate('/dashboard');
+        } else if (statusData.status === 'failed') {
+          toast({
+            title: "Error",
+            description: "Failed to generate report. Our team will review manually.",
+            variant: "destructive",
+          });
+        } else {
+          // Continue polling if still processing
+          setTimeout(pollStatus, 5000);
+        }
+      };
+
+      // Start polling
+      pollStatus();
 
       toast({
         title: "Success",
-        description: "Your pitch has been submitted successfully",
+        description: "Your pitch has been submitted. Report generation in progress...",
       });
-      
-      navigate('/dashboard');
     } catch (error) {
       console.error('Submission error:', error);
       toast({

@@ -1,6 +1,9 @@
+
 import { FileUpload } from "@/components/FileUpload";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Info } from "lucide-react";
 
 interface DocumentsStepProps {
   files: {
@@ -17,10 +20,18 @@ export const DocumentsStep = ({ files, onChange, onNext, onBack }: DocumentsStep
     <div className="space-y-6">
       <h2 className="text-2xl font-semibold">Upload Documents</h2>
       
+      <Alert>
+        <Info className="h-4 w-4" />
+        <AlertDescription>
+          Documents will be processed using our AI pipeline to generate comprehensive reports.
+          Supported formats: PDF, DOCX (max 10MB per file)
+        </AlertDescription>
+      </Alert>
+      
       <div className="space-y-6">
         <div>
           <Label className="mb-2 block">Pitch Deck (Required)</Label>
-          <p className="text-sm text-muted-foreground mb-4">PDF or PPT up to 10MB</p>
+          <p className="text-sm text-muted-foreground mb-4">Upload your pitch deck presentation</p>
           <FileUpload
             onUploadComplete={(uploadedFiles) => {
               if (uploadedFiles.length > 0) {
@@ -34,8 +45,10 @@ export const DocumentsStep = ({ files, onChange, onNext, onBack }: DocumentsStep
         </div>
 
         <div>
-          <Label className="mb-2 block">Financial Documents (Optional)</Label>
-          <p className="text-sm text-muted-foreground mb-4">PDF, Excel, or CSV up to 10MB</p>
+          <Label className="mb-2 block">Additional Documents (Optional)</Label>
+          <p className="text-sm text-muted-foreground mb-4">
+            Financial statements, market research, or other supporting documents
+          </p>
           <FileUpload
             onUploadComplete={(uploadedFiles) => {
               onChange({
