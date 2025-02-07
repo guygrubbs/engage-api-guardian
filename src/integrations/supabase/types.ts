@@ -59,6 +59,8 @@ export type Database = {
           company_name: string
           created_at: string
           funding_goal: number | null
+          gcp_processing_status: string | null
+          gcs_document_paths: string[] | null
           id: string
           industry: string | null
           pitch_deck_url: string | null
@@ -74,6 +76,8 @@ export type Database = {
           company_name: string
           created_at?: string
           funding_goal?: number | null
+          gcp_processing_status?: string | null
+          gcs_document_paths?: string[] | null
           id?: string
           industry?: string | null
           pitch_deck_url?: string | null
@@ -89,6 +93,8 @@ export type Database = {
           company_name?: string
           created_at?: string
           funding_goal?: number | null
+          gcp_processing_status?: string | null
+          gcs_document_paths?: string[] | null
           id?: string
           industry?: string | null
           pitch_deck_url?: string | null
