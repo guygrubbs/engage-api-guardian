@@ -67,7 +67,7 @@ export const MultiStepSubmissionForm = () => {
           stage: formData.stage,
           company_description: businessInfo.problemStatement,
           user_id: user.id,
-          status: 'pending'
+          status: 'submitted'  // Changed from 'pending' to 'submitted'
         })
         .select()
         .single();
