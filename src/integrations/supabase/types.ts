@@ -140,7 +140,9 @@ export type Database = {
           created_at: string
           id: string
           is_paid: boolean | null
+          parent_report_id: string | null
           pitch_id: string
+          summary_type: string | null
           tier: Database["public"]["Enums"]["report_tier"]
           updated_at: string
         }
@@ -149,7 +151,9 @@ export type Database = {
           created_at?: string
           id?: string
           is_paid?: boolean | null
+          parent_report_id?: string | null
           pitch_id: string
+          summary_type?: string | null
           tier: Database["public"]["Enums"]["report_tier"]
           updated_at?: string
         }
@@ -158,11 +162,20 @@ export type Database = {
           created_at?: string
           id?: string
           is_paid?: boolean | null
+          parent_report_id?: string | null
           pitch_id?: string
+          summary_type?: string | null
           tier?: Database["public"]["Enums"]["report_tier"]
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "reports_parent_report_id_fkey"
+            columns: ["parent_report_id"]
+            isOneToOne: false
+            referencedRelation: "reports"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "reports_pitch_id_fkey"
             columns: ["pitch_id"]

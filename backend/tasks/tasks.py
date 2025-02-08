@@ -1,3 +1,4 @@
+
 from celery_config import celery
 from services.full_pipeline import run_full_pipeline
 from services.config import GCS_BUCKET_NAME
@@ -8,20 +9,48 @@ import json
 def generate_report_task(self, company_name, industry, document_paths):
     """
     Asynchronously generates an AI-powered startup report.
+    First generates a detailed tier 2 report, then creates a teaser summary.
     """
     try:
-        # Run AI pipeline to generate the report
-        result = run_full_pipeline(company_name, industry, document_paths)
+        # Run AI pipeline to generate the tier 2 report
+        tier2_result = run_full_pipeline(company_name, industry, document_paths)
 
-        # Save report to Google Cloud Storage
+        # Generate teaser summary from tier 2 report
+        teaser_result = {
+            "executive_summary": tier2_result.get("executive_summary", "")[:500],  # Truncated summary
+            "key_highlights": {
+                "market_opportunity": tier2_result.get("market_opportunity", {}).get("summary", ""),
+                "competitive_position": tier2_result.get("competitive_analysis", {}).get("summary", ""),
+                "recommendation": tier2_result.get("final_recommendations", "")[:200]  # Truncated recommendation
+            }
+        }
+
+        # Save both reports to Google Cloud Storage
         storage_client = storage.Client()
         bucket = storage_client.bucket(GCS_BUCKET_NAME)
-        blob = bucket.blob(f"reports/{company_name}_report.json")
 
-        # Store AI-generated report as a JSON file
-        blob.upload_from_string(json.dumps(result), content_type="application/json")
+        # Store tier 2 report
+        tier2_blob = bucket.blob(f"reports/{company_name}_tier2_report.json")
+        tier2_blob.upload_from_string(
+            json.dumps(tier2_result),
+            content_type="application/json"
+        )
 
-        return {"status": "completed", "report_url": blob.public_url}
+        # Store teaser report
+        teaser_blob = bucket.blob(f"reports/{company_name}_teaser_report.json")
+        teaser_blob.upload_from_string(
+            json.dumps(teaser_result),
+            content_type="application/json"
+        )
+
+        return {
+            "status": "completed",
+            "tier2_url": tier2_blob.public_url,
+            "teaser_url": teaser_blob.public_url,
+            "tier2_report": tier2_result,
+            "teaser_report": teaser_result
+        }
 
     except Exception as e:
         return {"status": "failed", "error": str(e)}
+
