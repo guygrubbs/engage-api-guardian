@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/hooks/use-toast";
@@ -78,8 +79,9 @@ export const FileUpload = ({ onUploadComplete }: FileUploadProps) => {
               <Upload className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
             )}
             <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-              {isUploading ? 'Uploading...' : 'Click to upload PDF files'}
+              {isUploading ? 'Uploading...' : 'Click to upload PDF documents'}
             </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">PDF files only (max 10MB)</p>
           </div>
           <input
             type="file"
