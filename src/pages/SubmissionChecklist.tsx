@@ -5,37 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Check, ChevronRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { TabContentMap, type TabKey } from "@/components/checklist/TabContentMap";
 
 const SubmissionChecklist = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("market");
+  const [activeTab, setActiveTab] = useState<TabKey>("market");
   const isMobile = useIsMobile();
 
-  const ChecklistItem = ({ title, items }: { title: string; items: string[] }) => (
-    <div className="space-y-2">
-      <h3 className="font-semibold text-lg">{title}</h3>
-      <ul className="space-y-1">
-        {items.map((item, index) => (
-          <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-            <Check className="h-4 w-4 mt-1 text-primary" />
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-
   // Mobile-friendly tab labels
-  const getTabLabel = (label: string) => {
+  const getTabLabel = (label: TabKey) => {
     if (!isMobile) return label;
-    switch (label) {
-      case "competition": return "Comp";
-      case "financial": return "Fin";
-      case "acquisition": return "Acq";
-      default: return label;
-    }
+    const labelMap: Record<TabKey, string> = {
+      market: "Market",
+      competition: "Comp",
+      financial: "Fin",
+      team: "Team",
+      customers: "Cust",
+      acquisition: "Acq"
+    };
+    return labelMap[label];
   };
 
   return (
@@ -55,15 +45,20 @@ const SubmissionChecklist = () => {
           </AlertDescription>
         </Alert>
 
-        <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-3 sm:flex sm:flex-wrap w-full gap-1 p-1">
-            <TabsTrigger value="market" className="text-xs sm:text-sm">{getTabLabel("market")}</TabsTrigger>
-            <TabsTrigger value="competition" className="text-xs sm:text-sm">{getTabLabel("competition")}</TabsTrigger>
-            <TabsTrigger value="financial" className="text-xs sm:text-sm">{getTabLabel("financial")}</TabsTrigger>
-            <TabsTrigger value="team" className="text-xs sm:text-sm">{getTabLabel("team")}</TabsTrigger>
-            <TabsTrigger value="customers" className="text-xs sm:text-sm">{getTabLabel("customers")}</TabsTrigger>
-            <TabsTrigger value="acquisition" className="text-xs sm:text-sm">{getTabLabel("acquisition")}</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={(value) => setActiveTab(value as TabKey)}>
+          <div className="bg-muted p-1 rounded-md">
+            <TabsList className="grid w-full grid-cols-3 gap-1">
+              {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
+                <TabsTrigger 
+                  key={tab}
+                  value={tab} 
+                  className="text-xs sm:text-sm data-[state=active]:bg-background"
+                >
+                  {getTabLabel(tab)}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
 
           <Card>
             <CardHeader>
@@ -73,119 +68,11 @@ const SubmissionChecklist = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <TabsContent value="market" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Market Overview"
-                  items={[
-                    "Industry and sector of operation",
-                    "Total Addressable Market (TAM) size",
-                    "Key market trends and opportunities"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Target Customer Profile"
-                  items={[
-                    "Description of ideal customer segments",
-                    "Customer pain points and challenges",
-                    "Customer purchasing behavior"
-                  ]}
-                />
-              </TabsContent>
-
-              <TabsContent value="competition" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Competitive Analysis"
-                  items={[
-                    "Key competitors and their positioning",
-                    "Competitive strengths and weaknesses",
-                    "Your unique competitive advantages"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Market Position"
-                  items={[
-                    "Industry benchmarks and standards",
-                    "Feature comparison with competitors",
-                    "Market differentiation strategy"
-                  ]}
-                />
-              </TabsContent>
-
-              <TabsContent value="financial" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Revenue Metrics"
-                  items={[
-                    "Annual and Monthly Recurring Revenue",
-                    "Revenue streams breakdown",
-                    "Year-over-year growth percentages"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Financial Health"
-                  items={[
-                    "Profit margins and cost structure",
-                    "Funding history and capital structure",
-                    "Key financial milestones"
-                  ]}
-                />
-              </TabsContent>
-
-              <TabsContent value="team" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Leadership Team"
-                  items={[
-                    "Leadership profiles and experience",
-                    "Key team member backgrounds",
-                    "Notable achievements and expertise"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Team Structure"
-                  items={[
-                    "Current team composition",
-                    "Hiring plans and growth strategy",
-                    "Identified skill gaps and solutions"
-                  ]}
-                />
-              </TabsContent>
-
-              <TabsContent value="customers" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Customer Insights"
-                  items={[
-                    "Customer feedback and testimonials",
-                    "Case studies and success stories",
-                    "Customer satisfaction metrics"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Customer Success"
-                  items={[
-                    "Retention rates and trends",
-                    "Customer satisfaction scores",
-                    "Notable client relationships"
-                  ]}
-                />
-              </TabsContent>
-
-              <TabsContent value="acquisition" className="space-y-4 mt-0">
-                <ChecklistItem
-                  title="Acquisition Strategy"
-                  items={[
-                    "Target audience definition",
-                    "Marketing and sales channels",
-                    "Customer acquisition costs"
-                  ]}
-                />
-                <ChecklistItem
-                  title="Sales Process"
-                  items={[
-                    "Sales funnel metrics",
-                    "Conversion rates and KPIs",
-                    "Sales enablement tools"
-                  ]}
-                />
-              </TabsContent>
+              {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
+                <TabsContent key={tab} value={tab} className="mt-0">
+                  {TabContentMap[tab]}
+                </TabsContent>
+              ))}
             </CardContent>
           </Card>
         </Tabs>
