@@ -6,10 +6,12 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Check, ChevronRight } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const SubmissionChecklist = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("market");
+  const isMobile = useIsMobile();
 
   const ChecklistItem = ({ title, items }: { title: string; items: string[] }) => (
     <div className="space-y-2">
@@ -24,6 +26,17 @@ const SubmissionChecklist = () => {
       </ul>
     </div>
   );
+
+  // Mobile-friendly tab labels
+  const getTabLabel = (label: string) => {
+    if (!isMobile) return label;
+    switch (label) {
+      case "competition": return "Comp";
+      case "financial": return "Fin";
+      case "acquisition": return "Acq";
+      default: return label;
+    }
+  };
 
   return (
     <div className="min-h-screen w-full py-4 px-3 sm:py-8 sm:px-4 relative">
@@ -43,13 +56,13 @@ const SubmissionChecklist = () => {
         </Alert>
 
         <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={setActiveTab}>
-          <TabsList className="flex flex-wrap w-full gap-2 p-1">
-            <TabsTrigger value="market" className="flex-1 min-w-[80px] text-xs sm:text-sm">Market</TabsTrigger>
-            <TabsTrigger value="competition" className="flex-1 min-w-[80px] text-xs sm:text-sm">Competition</TabsTrigger>
-            <TabsTrigger value="financial" className="flex-1 min-w-[80px] text-xs sm:text-sm">Financial</TabsTrigger>
-            <TabsTrigger value="team" className="flex-1 min-w-[80px] text-xs sm:text-sm">Team</TabsTrigger>
-            <TabsTrigger value="customers" className="flex-1 min-w-[80px] text-xs sm:text-sm">Customers</TabsTrigger>
-            <TabsTrigger value="acquisition" className="flex-1 min-w-[80px] text-xs sm:text-sm">Acquisition</TabsTrigger>
+          <TabsList className="grid grid-cols-3 sm:flex sm:flex-wrap w-full gap-1 p-1">
+            <TabsTrigger value="market" className="text-xs sm:text-sm">{getTabLabel("market")}</TabsTrigger>
+            <TabsTrigger value="competition" className="text-xs sm:text-sm">{getTabLabel("competition")}</TabsTrigger>
+            <TabsTrigger value="financial" className="text-xs sm:text-sm">{getTabLabel("financial")}</TabsTrigger>
+            <TabsTrigger value="team" className="text-xs sm:text-sm">{getTabLabel("team")}</TabsTrigger>
+            <TabsTrigger value="customers" className="text-xs sm:text-sm">{getTabLabel("customers")}</TabsTrigger>
+            <TabsTrigger value="acquisition" className="text-xs sm:text-sm">{getTabLabel("acquisition")}</TabsTrigger>
           </TabsList>
 
           <Card>

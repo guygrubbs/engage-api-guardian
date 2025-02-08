@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { CompanyInfoStep } from "./steps/CompanyInfoStep";
@@ -140,32 +139,28 @@ export const MultiStepSubmissionForm = () => {
     }
   };
 
+  const Step = ({ number, label, active }: { number: number; label: string; active: boolean }) => (
+    <div className="flex flex-col items-center">
+      <div className={`rounded-full w-8 h-8 flex items-center justify-center transition-colors duration-200 ${
+        active ? 'bg-emerald-500 text-white' : 'bg-gray-200 text-gray-600'
+      }`}>
+        {number}
+      </div>
+      <span className="text-xs mt-1 text-center">{label}</span>
+    </div>
+  );
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <div className="flex justify-between items-center mb-8">
-        <div className="flex gap-4 items-center">
-          <div className={`rounded-full w-8 h-8 flex items-center justify-center ${
-            currentStep === 1 ? 'bg-emerald-500 text-white' : 'bg-gray-200'
-          }`}>
-            1
-          </div>
-          <span className="text-sm">Company</span>
-          <div className={`rounded-full w-8 h-8 flex items-center justify-center ${
-            currentStep === 2 ? 'bg-emerald-500 text-white' : 'bg-gray-200'
-          }`}>
-            2
-          </div>
-          <span className="text-sm">Documents</span>
-          <div className={`rounded-full w-8 h-8 flex items-center justify-center ${
-            currentStep === 3 ? 'bg-emerald-500 text-white' : 'bg-gray-200'
-          }`}>
-            3
-          </div>
-          <span className="text-sm">Business</span>
+    <div className="max-w-4xl mx-auto p-4">
+      <div className="mb-8">
+        <div className="grid grid-cols-3 gap-2">
+          <Step number={1} label="Company" active={currentStep === 1} />
+          <Step number={2} label="Documents" active={currentStep === 2} />
+          <Step number={3} label="Business" active={currentStep === 3} />
         </div>
       </div>
 
-      <Card className="p-6 mb-8">
+      <Card className="p-4 sm:p-6 mb-8">
         {currentStep === 1 && (
           <CompanyInfoStep 
             defaultValues={formData}
