@@ -58,18 +58,18 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <Tabs defaultValue="market" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-6">
-          <TabsTrigger value="market" className="glass hover:bg-primary/20 transition-all duration-300">Market</TabsTrigger>
-          <TabsTrigger value="competition" className="glass hover:bg-primary/20 transition-all duration-300">Competition</TabsTrigger>
-          <TabsTrigger value="financial" className="glass hover:bg-primary/20 transition-all duration-300">Financial</TabsTrigger>
-          <TabsTrigger value="team" className="glass hover:bg-primary/20 transition-all duration-300">Team</TabsTrigger>
-          <TabsTrigger value="customers" className="glass hover:bg-primary/20 transition-all duration-300">Customers</TabsTrigger>
-          <TabsTrigger value="acquisition" className="glass hover:bg-primary/20 transition-all duration-300">Acquisition</TabsTrigger>
+        <TabsList className="flex flex-wrap w-full gap-2 p-1">
+          <TabsTrigger value="market" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Market</TabsTrigger>
+          <TabsTrigger value="competition" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Competition</TabsTrigger>
+          <TabsTrigger value="financial" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Financial</TabsTrigger>
+          <TabsTrigger value="team" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Team</TabsTrigger>
+          <TabsTrigger value="customers" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Customers</TabsTrigger>
+          <TabsTrigger value="acquisition" className="flex-1 min-w-[80px] text-xs sm:text-sm glass hover:bg-primary/20">Acquisition</TabsTrigger>
         </TabsList>
 
         <TabsContent value="market" className="space-y-4 animate-fade-in">
           <div className="space-y-4">
-            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+            <div className="glass p-3 sm:p-4">
               <Label htmlFor="industry" className="text-foreground/90">Industry</Label>
               <Input
                 id="industry"
@@ -77,10 +77,10 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
                 value={formData.industry}
                 onChange={handleChange}
                 placeholder="e.g., FinTech, HealthTech"
-                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40"
               />
             </div>
-            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+            <div className="glass p-3 sm:p-4">
               <Label htmlFor="market_size" className="text-foreground/90">Market Size</Label>
               <Input
                 id="market_size"
@@ -89,10 +89,10 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
                 value={formData.market_size}
                 onChange={handleChange}
                 placeholder="Total Addressable Market size"
-                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40"
               />
             </div>
-            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+            <div className="glass p-3 sm:p-4">
               <Label htmlFor="market_trends" className="text-foreground/90">Market Trends</Label>
               <Textarea
                 id="market_trends"
@@ -100,7 +100,7 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
                 value={formData.market_trends}
                 onChange={handleChange}
                 placeholder="Describe key market trends"
-                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40"
               />
             </div>
           </div>
@@ -236,11 +236,11 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
         </TabsContent>
       </Tabs>
 
-      <div className="flex justify-end space-x-4 mt-8">
+      <div className="flex justify-end space-x-4 mt-6 sm:mt-8">
         <Button 
           type="submit" 
           disabled={isSubmitting}
-          className="glass bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500/90 hover:to-blue-500/90 transition-all duration-300"
+          className="w-full sm:w-auto glass bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500/90 hover:to-blue-500/90"
         >
           {isSubmitting ? (
             <>

@@ -3,7 +3,7 @@ import { MultiStepSubmissionForm } from "@/components/submission/MultiStepSubmis
 
 const SubmissionFormPage = () => {
   return (
-    <div className="min-h-screen w-full py-8 px-4 relative">
+    <div className="min-h-screen w-full py-4 px-3 sm:py-8 sm:px-4 relative">
       {/* Animated background elements */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" />
@@ -11,7 +11,7 @@ const SubmissionFormPage = () => {
       </div>
 
       <div className="container mx-auto">
-        <div className="glass animate-fade-in p-6 md:p-8">
+        <div className="glass animate-fade-in p-4 sm:p-6 md:p-8">
           <MultiStepSubmissionForm />
         </div>
       </div>

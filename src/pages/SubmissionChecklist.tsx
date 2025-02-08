@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -25,30 +26,35 @@ const SubmissionChecklist = () => {
   );
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen w-full py-4 px-3 sm:py-8 sm:px-4 relative">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-500/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" />
+        <div className="absolute bottom-0 -right-4 w-72 h-72 bg-blue-500/20 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-float" style={{ animationDelay: "-2s" }} />
+      </div>
+
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Company Information Checklist</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Company Information Checklist</h1>
         
-        <Alert className="mb-6">
+        <Alert className="mb-4 sm:mb-6">
           <AlertDescription>
             This checklist outlines all the information that helps us provide better advice for your company. 
             You can proceed with submitting any amount of information you have available - more information helps us give better advice, but partial submissions are welcome.
           </AlertDescription>
         </Alert>
 
-        <Tabs defaultValue="market" className="space-y-6" onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
-            <TabsTrigger value="market" className="text-sm">Market</TabsTrigger>
-            <TabsTrigger value="competition" className="text-sm">Competition</TabsTrigger>
-            <TabsTrigger value="financial" className="text-sm">Financial</TabsTrigger>
-            <TabsTrigger value="team" className="text-sm">Team</TabsTrigger>
-            <TabsTrigger value="customers" className="text-sm">Customers</TabsTrigger>
-            <TabsTrigger value="acquisition" className="text-sm">Acquisition</TabsTrigger>
+        <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={setActiveTab}>
+          <TabsList className="flex flex-wrap w-full gap-2 p-1">
+            <TabsTrigger value="market" className="flex-1 min-w-[80px] text-xs sm:text-sm">Market</TabsTrigger>
+            <TabsTrigger value="competition" className="flex-1 min-w-[80px] text-xs sm:text-sm">Competition</TabsTrigger>
+            <TabsTrigger value="financial" className="flex-1 min-w-[80px] text-xs sm:text-sm">Financial</TabsTrigger>
+            <TabsTrigger value="team" className="flex-1 min-w-[80px] text-xs sm:text-sm">Team</TabsTrigger>
+            <TabsTrigger value="customers" className="flex-1 min-w-[80px] text-xs sm:text-sm">Customers</TabsTrigger>
+            <TabsTrigger value="acquisition" className="flex-1 min-w-[80px] text-xs sm:text-sm">Acquisition</TabsTrigger>
           </TabsList>
 
           <Card>
             <CardHeader>
-              <CardTitle>Information Checklist</CardTitle>
+              <CardTitle className="text-xl">Information Checklist</CardTitle>
               <CardDescription>
                 Review the information needed for the {activeTab} section
               </CardDescription>
@@ -171,10 +177,10 @@ const SubmissionChecklist = () => {
           </Card>
         </Tabs>
 
-        <div className="mt-8 flex justify-end">
+        <div className="mt-6 sm:mt-8 flex justify-end">
           <Button 
             onClick={() => navigate('/submission-form')} 
-            className="flex items-center"
+            className="w-full sm:w-auto flex items-center justify-center"
           >
             Proceed to Submission Form
             <ChevronRight className="ml-2 h-4 w-4" />
