@@ -1,11 +1,13 @@
+
 import { Link } from "react-router-dom";
-import { ClipboardList, Phone } from "lucide-react";
+import { ClipboardList, Phone, Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "../ui/button";
 
 const Navigation = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     // Check initial auth state
@@ -27,6 +29,10 @@ const Navigation = () => {
     await supabase.auth.signOut();
   };
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="border-b bg-background">
       <div className="container mx-auto px-4">
@@ -37,7 +43,21 @@ const Navigation = () => {
             </Link>
           </div>
           
-          <div className="flex items-center space-x-4">
+          {/* Mobile menu button */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden p-2 rounded-md hover:bg-gray-100"
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? (
+              <X className="h-6 w-6" />
+            ) : (
+              <Menu className="h-6 w-6" />
+            )}
+          </button>
+
+          {/* Desktop menu */}
+          <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/submission-checklist"
               className="text-sm font-medium hover:text-primary inline-flex items-center"
@@ -68,6 +88,44 @@ const Navigation = () => {
             )}
           </div>
         </div>
+
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4 space-y-4">
+            <Link
+              to="/submission-checklist"
+              className="block text-sm font-medium hover:text-primary"
+            >
+              <div className="flex items-center">
+                <ClipboardList className="mr-2 h-4 w-4" />
+                Submit Information
+              </div>
+            </Link>
+            <Link to="/pricing" className="block text-sm font-medium hover:text-primary">
+              Pricing
+            </Link>
+            <Link to="/contact" className="block text-sm font-medium hover:text-primary">
+              <div className="flex items-center">
+                <Phone className="mr-2 h-4 w-4" />
+                Contact Sales
+              </div>
+            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className="block text-sm font-medium hover:text-primary">
+                  Dashboard
+                </Link>
+                <Button variant="outline" onClick={handleSignOut} className="w-full">
+                  Sign Out
+                </Button>
+              </>
+            ) : (
+              <Link to="/auth" className="block text-sm font-medium hover:text-primary">
+                Login
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );

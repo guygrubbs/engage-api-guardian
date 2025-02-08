@@ -37,138 +37,138 @@ const SubmissionChecklist = () => {
         </Alert>
 
         <Tabs defaultValue="market" className="space-y-6" onValueChange={setActiveTab}>
-            <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
-              <TabsTrigger value="market">Market</TabsTrigger>
-              <TabsTrigger value="competition">Competition</TabsTrigger>
-              <TabsTrigger value="financial">Financial</TabsTrigger>
-              <TabsTrigger value="team">Team</TabsTrigger>
-              <TabsTrigger value="customers">Customers</TabsTrigger>
-              <TabsTrigger value="acquisition">Acquisition</TabsTrigger>
-            </TabsList>
+          <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
+            <TabsTrigger value="market" className="text-sm">Market</TabsTrigger>
+            <TabsTrigger value="competition" className="text-sm">Competition</TabsTrigger>
+            <TabsTrigger value="financial" className="text-sm">Financial</TabsTrigger>
+            <TabsTrigger value="team" className="text-sm">Team</TabsTrigger>
+            <TabsTrigger value="customers" className="text-sm">Customers</TabsTrigger>
+            <TabsTrigger value="acquisition" className="text-sm">Acquisition</TabsTrigger>
+          </TabsList>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Information Checklist</CardTitle>
-                <CardDescription>
-                  Review the information needed for the {activeTab} section
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <TabsContent value="market" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Market Overview"
-                    items={[
-                      "Industry and sector of operation",
-                      "Total Addressable Market (TAM) size",
-                      "Key market trends and opportunities"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Target Customer Profile"
-                    items={[
-                      "Description of ideal customer segments",
-                      "Customer pain points and challenges",
-                      "Customer purchasing behavior"
-                    ]}
-                  />
-                </TabsContent>
+          <Card>
+            <CardHeader>
+              <CardTitle>Information Checklist</CardTitle>
+              <CardDescription>
+                Review the information needed for the {activeTab} section
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <TabsContent value="market" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Market Overview"
+                  items={[
+                    "Industry and sector of operation",
+                    "Total Addressable Market (TAM) size",
+                    "Key market trends and opportunities"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Target Customer Profile"
+                  items={[
+                    "Description of ideal customer segments",
+                    "Customer pain points and challenges",
+                    "Customer purchasing behavior"
+                  ]}
+                />
+              </TabsContent>
 
-                <TabsContent value="competition" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Competitive Analysis"
-                    items={[
-                      "Key competitors and their positioning",
-                      "Competitive strengths and weaknesses",
-                      "Your unique competitive advantages"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Market Position"
-                    items={[
-                      "Industry benchmarks and standards",
-                      "Feature comparison with competitors",
-                      "Market differentiation strategy"
-                    ]}
-                  />
-                </TabsContent>
+              <TabsContent value="competition" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Competitive Analysis"
+                  items={[
+                    "Key competitors and their positioning",
+                    "Competitive strengths and weaknesses",
+                    "Your unique competitive advantages"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Market Position"
+                  items={[
+                    "Industry benchmarks and standards",
+                    "Feature comparison with competitors",
+                    "Market differentiation strategy"
+                  ]}
+                />
+              </TabsContent>
 
-                <TabsContent value="financial" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Revenue Metrics"
-                    items={[
-                      "Annual and Monthly Recurring Revenue",
-                      "Revenue streams breakdown",
-                      "Year-over-year growth percentages"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Financial Health"
-                    items={[
-                      "Profit margins and cost structure",
-                      "Funding history and capital structure",
-                      "Key financial milestones"
-                    ]}
-                  />
-                </TabsContent>
+              <TabsContent value="financial" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Revenue Metrics"
+                  items={[
+                    "Annual and Monthly Recurring Revenue",
+                    "Revenue streams breakdown",
+                    "Year-over-year growth percentages"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Financial Health"
+                  items={[
+                    "Profit margins and cost structure",
+                    "Funding history and capital structure",
+                    "Key financial milestones"
+                  ]}
+                />
+              </TabsContent>
 
-                <TabsContent value="team" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Leadership Team"
-                    items={[
-                      "Leadership profiles and experience",
-                      "Key team member backgrounds",
-                      "Notable achievements and expertise"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Team Structure"
-                    items={[
-                      "Current team composition",
-                      "Hiring plans and growth strategy",
-                      "Identified skill gaps and solutions"
-                    ]}
-                  />
-                </TabsContent>
+              <TabsContent value="team" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Leadership Team"
+                  items={[
+                    "Leadership profiles and experience",
+                    "Key team member backgrounds",
+                    "Notable achievements and expertise"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Team Structure"
+                  items={[
+                    "Current team composition",
+                    "Hiring plans and growth strategy",
+                    "Identified skill gaps and solutions"
+                  ]}
+                />
+              </TabsContent>
 
-                <TabsContent value="customers" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Customer Insights"
-                    items={[
-                      "Customer feedback and testimonials",
-                      "Case studies and success stories",
-                      "Customer satisfaction metrics"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Customer Success"
-                    items={[
-                      "Retention rates and trends",
-                      "Customer satisfaction scores",
-                      "Notable client relationships"
-                    ]}
-                  />
-                </TabsContent>
+              <TabsContent value="customers" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Customer Insights"
+                  items={[
+                    "Customer feedback and testimonials",
+                    "Case studies and success stories",
+                    "Customer satisfaction metrics"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Customer Success"
+                  items={[
+                    "Retention rates and trends",
+                    "Customer satisfaction scores",
+                    "Notable client relationships"
+                  ]}
+                />
+              </TabsContent>
 
-                <TabsContent value="acquisition" className="space-y-4 mt-0">
-                  <ChecklistItem
-                    title="Acquisition Strategy"
-                    items={[
-                      "Target audience definition",
-                      "Marketing and sales channels",
-                      "Customer acquisition costs"
-                    ]}
-                  />
-                  <ChecklistItem
-                    title="Sales Process"
-                    items={[
-                      "Sales funnel metrics",
-                      "Conversion rates and KPIs",
-                      "Sales enablement tools"
-                    ]}
-                  />
-                </TabsContent>
-              </CardContent>
-            </Card>
+              <TabsContent value="acquisition" className="space-y-4 mt-0">
+                <ChecklistItem
+                  title="Acquisition Strategy"
+                  items={[
+                    "Target audience definition",
+                    "Marketing and sales channels",
+                    "Customer acquisition costs"
+                  ]}
+                />
+                <ChecklistItem
+                  title="Sales Process"
+                  items={[
+                    "Sales funnel metrics",
+                    "Conversion rates and KPIs",
+                    "Sales enablement tools"
+                  ]}
+                />
+              </TabsContent>
+            </CardContent>
+          </Card>
         </Tabs>
 
         <div className="mt-8 flex justify-end">
