@@ -1,13 +1,20 @@
-import os
+
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+from api.report_api import report_api
 from tasks.tasks import generate_report_task
+import os
 
 # Initialize Flask App
 app = Flask(__name__)
+CORS(app)  # Enable CORS
+
+# Register API Blueprint
+app.register_blueprint(report_api, url_prefix='/api')
 
 @app.route('/')
 def home():
-    return jsonify({"message": "AI-Powered Report Generation API is running with Celery!"})
+    return jsonify({"message": "AI-Powered Report Generation API is running!"})
 
 @app.route('/generate_report', methods=['POST'])
 def generate_report():
@@ -25,7 +32,10 @@ def generate_report():
     # Trigger Celery background job
     task = generate_report_task.apply_async(args=[company_name, industry, document_paths])
 
-    return jsonify({"message": "Report generation started!", "task_id": task.id})
+    return jsonify({
+        "message": "Report generation started!",
+        "task_id": task.id
+    })
 
 @app.route('/report_status/<task_id>', methods=['GET'])
 def report_status(task_id):
@@ -42,4 +52,7 @@ def report_status(task_id):
         return jsonify({"status": "failed", "error": str(task.info)}), 500
 
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=int(os.getenv("PORT", 5000)), debug=os.getenv("DEBUG_MODE", "False").lower() == "true")
+    port = int(os.getenv("PORT", 5000))
+    debug_mode = os.getenv("DEBUG_MODE", "False").lower() == "true"
+    app.run(host="0.0.0.0", port=port, debug=debug_mode)
+
