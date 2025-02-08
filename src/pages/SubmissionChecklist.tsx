@@ -14,18 +14,29 @@ const SubmissionChecklist = () => {
   const [activeTab, setActiveTab] = useState<TabKey>("market");
   const isMobile = useIsMobile();
 
-  // Mobile-friendly tab labels
   const getTabLabel = (label: TabKey) => {
-    if (!isMobile) return label;
-    const labelMap: Record<TabKey, string> = {
+    if (!isMobile) {
+      const labelMap: Record<TabKey, string> = {
+        market: "Market Analysis",
+        competition: "Competition",
+        financial: "Financial Info",
+        team: "Team Details",
+        customers: "Customers",
+        acquisition: "Acquisition"
+      };
+      return labelMap[label];
+    }
+    
+    // Mobile-friendly shorter labels
+    const mobileLabels: Record<TabKey, string> = {
       market: "Market",
       competition: "Comp",
-      financial: "Fin",
+      financial: "Finance",
       team: "Team",
-      customers: "Cust",
-      acquisition: "Acq"
+      customers: "Custom",
+      acquisition: "Acquire"
     };
-    return labelMap[label];
+    return mobileLabels[label];
   };
 
   return (
@@ -52,7 +63,7 @@ const SubmissionChecklist = () => {
                 <TabsTrigger 
                   key={tab}
                   value={tab} 
-                  className="text-xs sm:text-sm data-[state=active]:bg-background/90 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+                  className="text-xs sm:text-sm data-[state=active]:bg-background/90 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200 whitespace-nowrap px-2 py-1.5"
                 >
                   {getTabLabel(tab)}
                 </TabsTrigger>
@@ -64,7 +75,7 @@ const SubmissionChecklist = () => {
             <CardHeader>
               <CardTitle className="text-xl">Information Checklist</CardTitle>
               <CardDescription>
-                Review the information needed for the {activeTab} section
+                Review the information needed for the {getTabLabel(activeTab)} section
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">

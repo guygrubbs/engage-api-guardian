@@ -58,12 +58,17 @@ const Navigation = () => {
 
           {/* Desktop menu */}
           <div className="hidden md:flex items-center space-x-4">
+            {isAuthenticated && (
+              <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
+                Dashboard
+              </Link>
+            )}
             <Link
               to="/submission-checklist"
               className="text-sm font-medium hover:text-primary inline-flex items-center"
             >
               <ClipboardList className="mr-2 h-4 w-4" />
-              Submit Information
+              Submit Company Info
             </Link>
             <Link to="/pricing" className="text-sm font-medium hover:text-primary">
               Pricing
@@ -73,14 +78,9 @@ const Navigation = () => {
               Contact Sales
             </Link>
             {isAuthenticated ? (
-              <>
-                <Link to="/dashboard" className="text-sm font-medium hover:text-primary">
-                  Dashboard
-                </Link>
-                <Button variant="outline" onClick={handleSignOut}>
-                  Sign Out
-                </Button>
-              </>
+              <Button variant="outline" onClick={handleSignOut}>
+                Sign Out
+              </Button>
             ) : (
               <Link to="/auth" className="text-sm font-medium hover:text-primary">
                 Login
@@ -90,42 +90,40 @@ const Navigation = () => {
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 space-y-4">
-            <Link
-              to="/submission-checklist"
-              className="block text-sm font-medium hover:text-primary"
-            >
-              <div className="flex items-center">
-                <ClipboardList className="mr-2 h-4 w-4" />
-                Submit Information
-              </div>
+        <div className={`md:hidden py-4 space-y-4 ${isMenuOpen ? 'block' : 'hidden'}`}>
+          {isAuthenticated && (
+            <Link to="/dashboard" className="block text-sm font-medium hover:text-primary">
+              Dashboard
             </Link>
-            <Link to="/pricing" className="block text-sm font-medium hover:text-primary">
-              Pricing
+          )}
+          <Link
+            to="/submission-checklist"
+            className="block text-sm font-medium hover:text-primary"
+          >
+            <div className="flex items-center">
+              <ClipboardList className="mr-2 h-4 w-4" />
+              Submit Company Info
+            </div>
+          </Link>
+          <Link to="/pricing" className="block text-sm font-medium hover:text-primary">
+            Pricing
+          </Link>
+          <Link to="/contact" className="block text-sm font-medium hover:text-primary">
+            <div className="flex items-center">
+              <Phone className="mr-2 h-4 w-4" />
+              Contact Sales
+            </div>
+          </Link>
+          {isAuthenticated ? (
+            <Button variant="outline" onClick={handleSignOut} className="w-full">
+              Sign Out
+            </Button>
+          ) : (
+            <Link to="/auth" className="block text-sm font-medium hover:text-primary">
+              Login
             </Link>
-            <Link to="/contact" className="block text-sm font-medium hover:text-primary">
-              <div className="flex items-center">
-                <Phone className="mr-2 h-4 w-4" />
-                Contact Sales
-              </div>
-            </Link>
-            {isAuthenticated ? (
-              <>
-                <Link to="/dashboard" className="block text-sm font-medium hover:text-primary">
-                  Dashboard
-                </Link>
-                <Button variant="outline" onClick={handleSignOut} className="w-full">
-                  Sign Out
-                </Button>
-              </>
-            ) : (
-              <Link to="/auth" className="block text-sm font-medium hover:text-primary">
-                Login
-              </Link>
-            )}
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </nav>
   );
