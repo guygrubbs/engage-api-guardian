@@ -57,18 +57,22 @@ const SubmissionChecklist = () => {
         </Alert>
 
         <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={(value) => setActiveTab(value as TabKey)}>
-          <div className="bg-muted/80 p-1 rounded-lg">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
-              {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
-                <TabsTrigger 
-                  key={tab}
-                  value={tab} 
-                  className="text-xs sm:text-sm data-[state=active]:bg-background/90 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200 whitespace-nowrap px-2 py-1.5"
-                >
-                  {getTabLabel(tab)}
-                </TabsTrigger>
-              ))}
-            </TabsList>
+          <div className="relative">
+            <div className="bg-muted/80 p-1 rounded-lg overflow-x-auto scrollbar-hide">
+              <TabsList className="inline-flex w-full md:w-auto min-w-full md:min-w-0 gap-1">
+                {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
+                  <TabsTrigger 
+                    key={tab}
+                    value={tab} 
+                    className="text-xs sm:text-sm flex-none data-[state=active]:bg-background/90 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200 whitespace-nowrap px-3 py-1.5"
+                  >
+                    {getTabLabel(tab)}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </div>
+            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-background to-transparent pointer-events-none md:hidden" />
+            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent pointer-events-none md:hidden" />
           </div>
 
           <Card className="border-muted/30 bg-card/90 backdrop-blur-sm">
