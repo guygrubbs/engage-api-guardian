@@ -46,13 +46,13 @@ const SubmissionChecklist = () => {
         </Alert>
 
         <Tabs defaultValue="market" className="space-y-4 sm:space-y-6" onValueChange={(value) => setActiveTab(value as TabKey)}>
-          <div className="bg-muted p-1 rounded-md">
-            <TabsList className="grid w-full grid-cols-3 gap-1">
+          <div className="bg-muted/80 p-1 rounded-lg">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-1">
               {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
                 <TabsTrigger 
                   key={tab}
                   value={tab} 
-                  className="text-xs sm:text-sm data-[state=active]:bg-background"
+                  className="text-xs sm:text-sm data-[state=active]:bg-background/90 data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
                 >
                   {getTabLabel(tab)}
                 </TabsTrigger>
@@ -60,7 +60,7 @@ const SubmissionChecklist = () => {
             </TabsList>
           </div>
 
-          <Card>
+          <Card className="border-muted/30 bg-card/90 backdrop-blur-sm">
             <CardHeader>
               <CardTitle className="text-xl">Information Checklist</CardTitle>
               <CardDescription>
@@ -69,7 +69,7 @@ const SubmissionChecklist = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               {(Object.keys(TabContentMap) as TabKey[]).map((tab) => (
-                <TabsContent key={tab} value={tab} className="mt-0">
+                <TabsContent key={tab} value={tab} className="mt-0 focus-visible:outline-none focus-visible:ring-0">
                   {TabContentMap[tab]}
                 </TabsContent>
               ))}
