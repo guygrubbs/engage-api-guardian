@@ -58,29 +58,30 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <Tabs defaultValue="market" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 lg:grid-cols-6">
-          <TabsTrigger value="market">Market</TabsTrigger>
-          <TabsTrigger value="competition">Competition</TabsTrigger>
-          <TabsTrigger value="financial">Financial</TabsTrigger>
-          <TabsTrigger value="team">Team</TabsTrigger>
-          <TabsTrigger value="customers">Customers</TabsTrigger>
-          <TabsTrigger value="acquisition">Acquisition</TabsTrigger>
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 mb-6">
+          <TabsTrigger value="market" className="glass hover:bg-primary/20 transition-all duration-300">Market</TabsTrigger>
+          <TabsTrigger value="competition" className="glass hover:bg-primary/20 transition-all duration-300">Competition</TabsTrigger>
+          <TabsTrigger value="financial" className="glass hover:bg-primary/20 transition-all duration-300">Financial</TabsTrigger>
+          <TabsTrigger value="team" className="glass hover:bg-primary/20 transition-all duration-300">Team</TabsTrigger>
+          <TabsTrigger value="customers" className="glass hover:bg-primary/20 transition-all duration-300">Customers</TabsTrigger>
+          <TabsTrigger value="acquisition" className="glass hover:bg-primary/20 transition-all duration-300">Acquisition</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="market" className="space-y-4">
+        <TabsContent value="market" className="space-y-4 animate-fade-in">
           <div className="space-y-4">
-            <div>
-              <Label htmlFor="industry">Industry</Label>
+            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+              <Label htmlFor="industry" className="text-foreground/90">Industry</Label>
               <Input
                 id="industry"
                 name="industry"
                 value={formData.industry}
                 onChange={handleChange}
                 placeholder="e.g., FinTech, HealthTech"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
               />
             </div>
-            <div>
-              <Label htmlFor="market_size">Market Size</Label>
+            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+              <Label htmlFor="market_size" className="text-foreground/90">Market Size</Label>
               <Input
                 id="market_size"
                 name="market_size"
@@ -88,16 +89,18 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
                 value={formData.market_size}
                 onChange={handleChange}
                 placeholder="Total Addressable Market size"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
               />
             </div>
-            <div>
-              <Label htmlFor="market_trends">Market Trends</Label>
+            <div className="glass p-4 hover:shadow-lg transition-all duration-300">
+              <Label htmlFor="market_trends" className="text-foreground/90">Market Trends</Label>
               <Textarea
                 id="market_trends"
                 name="market_trends"
                 value={formData.market_trends}
                 onChange={handleChange}
                 placeholder="Describe key market trends"
+                className="mt-2 bg-white/5 border-white/10 focus:border-primary/40 transition-all"
               />
             </div>
           </div>
@@ -233,8 +236,12 @@ export const SubmissionForm = ({ onSubmit, isSubmitting }: SubmissionFormProps) 
         </TabsContent>
       </Tabs>
 
-      <div className="flex justify-end space-x-4">
-        <Button type="submit" disabled={isSubmitting}>
+      <div className="flex justify-end space-x-4 mt-8">
+        <Button 
+          type="submit" 
+          disabled={isSubmitting}
+          className="glass bg-gradient-to-r from-purple-500/80 to-blue-500/80 hover:from-purple-500/90 hover:to-blue-500/90 transition-all duration-300"
+        >
           {isSubmitting ? (
             <>
               <Loader className="mr-2 h-4 w-4 animate-spin" />
