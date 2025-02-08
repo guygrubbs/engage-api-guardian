@@ -1,3 +1,4 @@
+
 import os
 from flask import Blueprint, request, jsonify
 from tasks.tasks import generate_report_task
@@ -15,18 +16,51 @@ def generate_report():
     """
     Asynchronously triggers AI-powered report generation.
     """
-    data = request.json
-    company_name = data.get("company_name")
-    industry = data.get("industry")
-    document_paths = data.get("document_paths", [])
+    try:
+        # Extract files from request
+        pitch_deck = request.files.get('pitchDeck')
+        additional_docs = [file for key, file in request.files.items() if key.startswith('additionalDoc')]
+        
+        # Get other form data
+        company_name = request.form.get('companyName')
+        industry = request.form.get('industry')
+        pitch_id = request.form.get('pitchId')
 
-    if not company_name or not industry or not document_paths:
-        return jsonify({"error": "Missing required parameters"}), 400
+        if not all([company_name, industry, pitch_deck]):
+            return jsonify({"error": "Missing required parameters"}), 400
 
-    # Trigger Celery background job
-    task = generate_report_task.apply_async(args=[company_name, industry, document_paths])
+        # Upload files to Google Cloud Storage
+        bucket = storage_client.bucket(GCS_BUCKET_NAME)
+        document_paths = []
 
-    return jsonify({"message": "Report generation started!", "task_id": task.id})
+        # Upload pitch deck
+        pitch_deck_blob = bucket.blob(f"uploads/{pitch_id}/pitch_deck_{pitch_deck.filename}")
+        pitch_deck_blob.upload_from_string(
+            pitch_deck.read(),
+            content_type=pitch_deck.content_type
+        )
+        document_paths.append(f"gs://{GCS_BUCKET_NAME}/{pitch_deck_blob.name}")
+
+        # Upload additional documents
+        for idx, doc in enumerate(additional_docs):
+            doc_blob = bucket.blob(f"uploads/{pitch_id}/additional_doc_{idx}_{doc.filename}")
+            doc_blob.upload_from_string(
+                doc.read(),
+                content_type=doc.content_type
+            )
+            document_paths.append(f"gs://{GCS_BUCKET_NAME}/{doc_blob.name}")
+
+        # Trigger Celery background job
+        task = generate_report_task.apply_async(args=[company_name, industry, document_paths])
+
+        return jsonify({
+            "message": "Report generation started!",
+            "task_id": task.id,
+            "document_paths": document_paths
+        })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @report_api.route('/report_status/<task_id>', methods=['GET'])
 def report_status(task_id):

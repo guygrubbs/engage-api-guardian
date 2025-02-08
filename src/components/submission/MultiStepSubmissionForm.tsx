@@ -10,6 +10,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { CompanyInfoInputs, BusinessInfoInputs } from "@/schemas/pitch-submission";
 
+// Configure backend API URL - this should match your Flask server
+const BACKEND_API_URL = 'http://localhost:5000';
+
 export const MultiStepSubmissionForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CompanyInfoInputs & Partial<BusinessInfoInputs>>({
@@ -74,7 +77,7 @@ export const MultiStepSubmissionForm = () => {
 
       if (pitchError) throw pitchError;
 
-      // Upload documents to Google Cloud Storage via backend API
+      // Upload documents to Flask backend
       const formDataToSend = new FormData();
       if (files.pitchDeck) {
         formDataToSend.append('pitchDeck', files.pitchDeck);
@@ -84,8 +87,9 @@ export const MultiStepSubmissionForm = () => {
       });
       formDataToSend.append('pitchId', pitch.id);
       formDataToSend.append('companyName', formData.companyName);
+      formDataToSend.append('industry', formData.industry);
 
-      const response = await fetch('/generate_report', {
+      const response = await fetch(`${BACKEND_API_URL}/api/generate_report`, {
         method: 'POST',
         body: formDataToSend,
       });
@@ -98,7 +102,7 @@ export const MultiStepSubmissionForm = () => {
 
       // Start polling for report generation status
       const pollStatus = async () => {
-        const statusResponse = await fetch(`/report_status/${task_id}`);
+        const statusResponse = await fetch(`${BACKEND_API_URL}/api/report_status/${task_id}`);
         const statusData = await statusResponse.json();
         
         if (statusData.status === 'completed') {
